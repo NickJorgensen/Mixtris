@@ -1,4 +1,4 @@
 Mixtris
 =======
 
-Mixtris is a music player that lets users intelligently shuffle through their music collection and mark songs they think are worth hearing while excluding songs they don’t want to hear again.  Users control which mixes they want to hear more of, only play songs they think are amazing, or just find and play songs that they have not heard in a while.
+Mixtris is an application that helps you rediscover your music collection.  Mixtris lets you step through your music library, letting you mark songs you think are worth hearing while excluding songs you don’t want to hear again.  You can easily control which mixes you want to hear more of, only play songs you think are amazing, or just find and play songs that you haven’t heard in a while.
