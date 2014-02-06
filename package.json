@@ -1,0 +1,22 @@
+{
+  "name": "ShuffleDeckNw2",
+  "version": "0.0.2",
+  "main": "main.html",
+  "dependencies": {
+    "express": "3.1.x",
+    "socket.io": "0.9.x",
+	"path":"0.4.x",
+	"mkdirp":"0.3.x"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "window": {
+    "title": "Mixtris",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 600
+  }
+}
