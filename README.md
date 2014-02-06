@@ -18,7 +18,7 @@ Installation
 
 #####OSX
 
- 1. Download executable [Mixtris_Win_Setup.exe](https://s3.amazonaws.com/MixtrisRelease/Mixtris_OSX_Setup.zip)
+ 1. Download executable [Mixtris_OSX_Setup.zip](https://s3.amazonaws.com/MixtrisRelease/Mixtris_OSX_Setup.zip)
  2. Double click your downloaded "Mixtris_OSX_Setup.zip" file. 
  3. Drag the unzipped Mixtris folder into your application folder or wherever you wish to install it.
  4. Launch Mixtris by double clicking Mixtris.app contained in your Mixtris folder.
