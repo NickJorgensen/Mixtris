@@ -8,7 +8,7 @@ Mixtris can be installed on any reasonably newish Windows or OSX operating syste
 Installation
 =======
 
-###Installation Instructions - Pre-Built 
+###Pre-Built Install
 ------
 
 #####Windows
@@ -23,7 +23,7 @@ Installation
  3. Drag the unzipped Mixtris folder into your application folder or wherever you wish to install it.
  4. Launch Mixtris by double clicking Mixtris.app contained in your Mixtris folder.
 
-###Installation Instructions - Build Your Own
+###Build Your Own Install
 ------
 
 Mixtris is basically just a web app minus the server.  In order to run Mixtris without a server, Mixtris uses a program built by Intel called [Node-Webkit](https://github.com/rogerwang/node-webkit).   
