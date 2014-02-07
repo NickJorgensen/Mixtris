@@ -56,7 +56,7 @@ var library = (function() {
 			var indexCounter = 0
 			var startTable = $('<table id="mixTable"></table>').appendTo(ct)
 			$.each(ALL_LIB,function(i,k){
-				console.log(this)
+				// console.log(this)
 				buildDiv(this,indexCounter)
 				indexCounter ++
 			})
@@ -82,10 +82,10 @@ var library = (function() {
 			function buildDirectoryLabel(attacher) {
 				$('<span></span>').appendTo(attacher)
 				.text(data.MUSIC_DIRECTORY).css('width','50px')
-				$('<button></button>').appendTo(attacher).attr('type','button').css('float','right').text('Update Directory').click(function(e){
-					var fileName = getFileNameFromPath($(this).parent().attr('data-name'))
-					changeDirectory(fileName)
-				})
+				// $('<button></button>').appendTo(attacher).attr('type','button').css('float','right').text('Update Directory').click(function(e){
+					// var fileName = getFileNameFromPath($(this).parent().attr('data-name'))
+					// changeDirectory(fileName)
+				// })
 			}
 			function buildWeight(attacher) {
 				$('<span></span>').appendTo(attacher).css('margin-right','10px').text('weight')
@@ -184,20 +184,43 @@ var library = (function() {
 					lib[i]['MIXTRIS_FILE'] = fName
 					
 					ALL_LIB[fName]=lib[i]
+					console.log(lib[i])
 				}
-				loadDirectoryIntoExpress()
-				getNewSongsFromDirectory()
+				getNewSongsFromDirectory(function(){
+					loadDirectoryIntoExpress()
+					console.log('all loaded')
+					cb('done')
+				})
+			} else {
+				cb('done')
 			}
-			cb('done')
 		})
 		function loadDirectoryIntoExpress(){
+			//loads only directories with music, just in cas a user selects their entire hard drive, it won't make their entire computer an accessable static directory.
 			$.each(ALL_LIB,function(){
+				// console.log(this.MUSIC_DIRECTORY)
+				// var mDir = this.MUSIC_DIRECTORY
+				// var allDir = {}
+				// $.each(this.SCORED_MUSIC,function(k,v){
+					// var combinedDir = mDir + k
+					// var directory = path.dirname(combinedDir)
+					// allDir[directory] = true
+				// })
+				// $.each(allDir,function(k,v){
+					// console.log(k)
+					// app.use(express.static(k))
+				// })
 				app.use(express.static(this.MUSIC_DIRECTORY))
+				console.log(this.MUSIC_DIRECTORY)
 			})
 		}
-		function getNewSongsFromDirectory(){
+		function getNewSongsFromDirectory(cb){
+			var counter = 0
+			var countLen = Object.keys(ALL_LIB).length
 			$.each(ALL_LIB,function(){
 				scanMixtrisFolderForUpdates(this.MUSIC_DIRECTORY,this.MIXTRIS_FILE,function(){
+					counter++
+					if(counter==countLen)cb('done')
 				})
 			})
 		}
@@ -227,6 +250,7 @@ var library = (function() {
 			LAST_PLAYED_LIST : lastPlayed,
 			WEIGHT : weight
 		}, null, 4)
+		console.log('d')
 		fs.writeFile(APP_ROOT+"/mixtrisFiles/"+fName,mixtrisJsonDefault,'utf8',function(err) {
 			if (err) {
 				throw err;
@@ -258,7 +282,7 @@ function scanMixtrisFolderForUpdates(dir,fname,cb) {
 	scanDirectory(dir,function(results){
 		for (i = 0; i < results.length; i++) {
 			var url = results[i].split(ALL_LIB[fname].MUSIC_DIRECTORY).pop()
-			console.log(url)
+			// console.log(url)
 			if(ALL_LIB[fname].SCORED_MUSIC[url] == undefined) {
 				ALL_LIB[fname].SCORED_MUSIC[url] = 0
 			}
@@ -345,7 +369,7 @@ function scanDirectory(dir,cb) {
 				var ext = path.extname(file)
 				var fileName = file.split(path.sep)
 				fileName = fileName[fileName.length-1]
-				if(fileName === 'Mixtris.exe') alert('d')
+				if(fileName === 'Mixtris.exe') alert('warning: you have selected a folder that contains your mixtris program ... maybe you should pick another')
 				if(ext=='.mp3' || ext=='.m4a'|| ext=='.json'|| ext=='.m4p') {
 					results.push(file);
 				}

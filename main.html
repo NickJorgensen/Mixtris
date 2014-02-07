@@ -130,10 +130,10 @@
 			app.use(express.favicon("public/js/icon.ico")); 
 			app.use('/public/js', express.static(APP_ROOT + '/public/js'))
 		})
-		app.get('/',function(req,res){
-			res.set('Content-Type', 'text/html')
-			res.sendfile(APP_ROOT+'/views/index.html')
-		}) 
+		//app.get('/',function(req,res){
+		//	res.set('Content-Type', 'text/html')
+		//	res.sendfile(APP_ROOT+'/views/index.html')
+		//}) 
 		io = require('socket.io').listen(app.listen(port), { log: false })
 		gui = require('nw.gui');
 		$('#localAddress').click(function(e){

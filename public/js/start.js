@@ -2,6 +2,17 @@
 
 $(document).ready(function() { 
 	launchApp()
+	$('audio').on('play', function (e) {
+		console.log('playevent')
+		
+		$("#start").find('.label').text("Sound Off")
+		PLAYHERE = true
+	});
+	$('audio').on('pause', function (e) {
+		console.log('playevent')
+		$("#start").find('.label').text("Sound On")
+		PLAYHERE = false
+	});
 })
 function launchApp() {
 	squeezeText()
@@ -18,7 +29,6 @@ var socket = io.connect(document.URL)
 $(window).resize(function() {
 	squeezeText()
 })
-	 
 socket.on('message', function (data) {
 	if(data.message) {
 		handleMessage(data)
@@ -118,6 +128,14 @@ function handleMessage(data) {
 	if(data.message=='NoMusic') alert('No mixes available.')
 	if(data.message=='AllOff') turnOffSpeaker()
 }
+function sendUserToIndex() {
+	alert(window.location)
+
+}
+(function(){
+
+alert('d')
+})
 function turnOffSpeaker() {
 		if(PLAYHERE) {
 			PLAYHERE = false
@@ -273,6 +291,7 @@ function getCurrentLibrary() {
 } 
 var PLAYHERE = false
 function playStopToggle() {
+console.log(PLAYHERE)
 	if(!PLAYHERE) { 
 		PLAYHERE = true
 		$("#start").find('.label').text("Sound Off")
@@ -284,7 +303,6 @@ function playStopToggle() {
 	}
 	squeezeText()
 }
-
 function bindUIEvents(jqBt,func) {
 	jqBt.click(function(e){
 			func(this)

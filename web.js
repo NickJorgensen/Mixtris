@@ -19,7 +19,78 @@ function signalAllOff() {
 		message: 'AllOff'
 	})
 }
+function getDeviceList(){
 
+}
+function createDialogBox(msg,func1,func2) {
+		// function yes() {
+			// $('.alerty').remove()
+		// }
+		// function no() {
+			// $('.alerty').remove()
+			// return false
+		// }
+		// var msg = "Notice:  due to auto-play restrictions on mobile devices, music must be started directly from that device.  All other controls can be done remotely after music has begun playing."
+		// createDialogBox(msg,yes,null)
+	var wdth = window.innerWidth || $(window).innerWidth()
+	var hght = window.innerHeight || $(window).innerHeight()
+	var ctWidth = wdth/3
+	if(ctWidth<300)ctWidth = 300 
+	var ctHeight = ctWidth*.7
+	var iconDiv =  $('<div></div>')
+	.attr('id','master_alert')
+	.attr('class','alerty')
+	.css('position','fixed')
+	.css('z-index','1100000')
+	.css('width',wdth)
+	.css('height',hght)
+	.css('left',0)
+	.css('top',0)
+	.css('background','rgba(250,250,250,0.3)')
+	.appendTo('body')
+	var iconDivSub =  $('<div></div>')
+	.css('position','absolute')
+	.css('width',ctWidth)
+	.css('height',ctHeight)
+	.css('left',(wdth-ctWidth)/2)
+	.css('top',(hght-ctHeight)/2)
+	.css('background','white')
+	.css('outline','2px solid black')
+	.appendTo(iconDiv)
+	.on('touchmove', function(event) {
+		return false
+	}) 
+	var OneButtonContainer =  makeSingleContainer(iconDivSub,ctHeight-60,ctWidth*.9)
+	.text(msg)
+	// .css('background','ghostWhite')
+	.css('margin-top','10px')
+	.css('margin-bottom','')
+	.css('text-align','center')
+	
+	if(func2===null) {
+		var btCt = $('<div></div>').appendTo(iconDivSub).css('width','150px').css('margin-left','auto').css('margin-top','10px').css('margin-right','auto')
+		var bt = $('<button></button>').text('Ok').appendTo(btCt).css('width','150px').click(function(e){
+		
+			func1()
+		})
+	} else {
+		
+		
+	}
+	function makeSingleContainer(atchr,h,w) {
+		if(!w) w = window.innerWidth/1.8
+		var OneButtonContainer =  $('<div></div>')
+			.attr('class','masterButtons')
+			.css('height',h)
+			.css('width',w)
+			.css('margin','20px')
+			.css('margin-left','auto')
+			.css('margin-right','auto')
+			.appendTo(atchr)
+		return OneButtonContainer
+	}
+}
+var DEVLIST = []
 function handleSocketIOCommands(data) {
 	if(ALL_LIB[CR_LIB]==undefined || !ALL_LIB[CR_LIB]) {
 		io.sockets.emit('message', { 
@@ -93,6 +164,121 @@ function setShuffleValue(dt) {
 	if (dt=='shuffleTwo') return 2
 	if (dt=='shuffleSkipped') return -14
 }
+function generateUUID(){
+//http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+    });
+    return uuid;
+};
+app.get('*',function(req,res,next){ 
+	if(!req.headers.cookie) {
+		console.log('cookie not found creating: '+req.headers.cookie)
+		var uid = generateUUID()
+		var expiration_date = new Date()
+		var cookie_string = ''
+		expiration_date.setFullYear(expiration_date.getFullYear() + 1)
+		cookie_string = "user="+uid+"; path=/; expires=" + expiration_date.toGMTString()
+		res.set('Content-Type', 'text/html')
+		res.set('Set-Cookie', cookie_string)
+		res.sendfile(APP_ROOT + '/views/index.html')
+	} else {
+		var cString = req.headers.cookie.split('=').pop()
+		isOnList(cString,function(found) {
+			if (found) {
+				next()
+			} else {
+				console.log('sending to confirmation')
+				res.set('Content-Type', 'text/html'); // 'text/html' => mime type
+				res.sendfile(APP_ROOT + '/views/confirmation.html')
+				confirmDevice(cString)
+			}
+		})
+	}
+})
+function isOnList(devString,cb) {
+	if(DEVLIST.length==0) {
+		getDeviceListFile(function(list) {
+			if (list) {
+				console.log(devString)
+				DEVLIST = list.list
+				console.log(DEVLIST)
+				for(var i = 0;i<DEVLIST.length;i++) {
+					if(DEVLIST[i]==devString) {
+						cb(true)
+						return
+					}		
+				}
+				cb(false)
+				return
+			} else {
+				cb(false)
+				return
+			}
+		})
+	} else {
+		for(var i = 0;i<DEVLIST.length;i++) {
+			if(DEVLIST[i]==devString) {
+				cb(true)
+				return
+			}		
+		}
+		cb(false)
+		return
+	}
+	function getDeviceListFile(cb) {
+		fs.readFile(APP_ROOT+'deviceList.json','utf8', function (err, data) {
+			if(err) {
+				cb(null)
+				return	
+			}
+			if(data) {
+				var pData = JSON.parse(data)
+				cb(pData)
+			} else {
+				cb(null)
+			}
+		})
+	}
+}
+function confirmDevice(devString) {
+		function yes() {
+			$('.alerty').remove()
+			DEVLIST.unshift(devString)
+			if(DEVLIST.length>10)DEVLIST.pop()
+			persistConfirmationList(DEVLIST)
+			io.sockets.emit('message', { 
+				message: 'Confirmed'
+			})
+		}
+		function no() {
+			$('.alerty').remove()
+			return false
+		}
+		var msg = "Please confirm this new Connection."
+		createDialogBox(msg,yes,null)
+}
+function persistConfirmationList(lst) {
+	var mixtrisJsonDefault = JSON.stringify({	
+		list:lst
+	}, null, 4)
+	fs.writeFile(APP_ROOT+"deviceList.json",mixtrisJsonDefault,'utf8',function(err) {
+		if (err) {
+			throw err;
+		} else {
+			console.log('updated device list')
+			var pData = JSON.parse(mixtrisJsonDefault)
+		}
+	})
+	function makeMixtrisFilesDirectory() {
+		mkdirp(APP_ROOT+"/mixtrisFiles", function(err) { 
+			if(err) console.log(err)
+		})
+	}	
+}
 app.get('/getSuffleType',function(req,res){
 	res.json(SHUFFLE_VALUE)
 })
@@ -114,7 +300,7 @@ app.get('/getCurrentLibrary',function(req,res){
 })
 app.get('/',function(req,res){
 	res.set('Content-Type', 'text/html'); // 'text/html' => mime type
-	res.sendfile(__dirname + '/views/index.html')
+	res.sendfile(APP_ROOT + '/views/index.html')
 }) 
 app.get('/getSrc',function(req,res){
 	if(!URLTOSTREAM ||URLTOSTREAM==undefined) {
