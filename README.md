@@ -18,7 +18,7 @@ Installation
 *NOTE: If you decide to install your Mixtis folder in one of your "Program Files" or "Program Files (x86)" folders, Mixtris MUST be run as administrator.
  4. To launch Mixtris, open your Mixtris Folder and double click on the "Mixtris.exe" file, or if extensions are hidden, the one just named "Mixtris".
 
-#####OSX
+####OSX
 
  1. Download installer [Mixtris_OSX_Setup.zip](https://s3.amazonaws.com/mixtris_release/Mixtris_OSX_Setup.zip)
  2. Double click your downloaded "Mixtris_OSX_Setup.zip" file. 
@@ -55,4 +55,11 @@ Installation
  8. In the cmd prompt type: `zip -r ./${PWD##*/}.nw *`  A file called Mixtris.nw will be created.
  9. Rename the file "node-webkit.app" to "Mixtris.app" … Finally, double click "Mixtris.app" to start Mixtris.
 
+
+Uninstall
+=======
+#####Windows & OSX
+ 1. Backup the folder called "mixtrisFiles" found in your installed Mixtris application folder.  You can copy these back in if you decide to reinstall Mixtris.  
+ 2. Make sure Mixtris is closed
+ 3. Drag your installed Mixtris application folder to the trash or recycling bin.  Thats it!
 
