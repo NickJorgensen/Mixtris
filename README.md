@@ -56,7 +56,9 @@ Installation
  9. Rename the file "node-webkit.app" to "Mixtris.app" … Finally, double click "Mixtris.app" to start Mixtris.
 
 
-####Uninstall
+Uninstall
+=======
+#####Windows & OSX
  1. Backup the folder called "mixtrisFiles" found in your installed Mixtris application folder.  You can copy these back in if you decide to reinstall Mixtris.  
  2. Make sure Mixtris is closed
  3. Drag your installed Mixtris application folder to the trash or recycling bin.  Thats it!
