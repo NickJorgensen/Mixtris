@@ -12,7 +12,7 @@ Installation
 ------
 
 #####Windows
- 1. Download installer [Mixtris_Win_Setup.exe](https://s3.amazonaws.com/mixtris_release/Mixtris_Win_Setup.exe)
+ 1. Download installer [Mixtris_Win_Setup.exe](https://s3.amazonaws.com/mixtris_release/Mixtris_Win_Setup.zip)
  2. Double click the your downloaded “Mixtris_Win_Setup.exe” and follow the instructions.
  3. Launch Mixtris by double clicking your installed Mixtris.exe or Mixtris desktop shortcut.
 
