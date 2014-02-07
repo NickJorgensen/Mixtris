@@ -17,13 +17,24 @@ Installation
  3. Drag the unzipped folder into one of your User account folders, i.e. Documents Folder, Desktop Folder, Music, or Pictures folder.  
 *NOTE: If you decide to install your Mixtis folder in one of your "Program Files" or "Program Files (x86)" folders, Mixtris MUST be run as administrator.
  4. To launch Mixtris, open your Mixtris Folder and double click on the "Mixtris.exe" file, or if extensions are hidden, the one just named "Mixtris".
+######Uninstall
+ 1. Backup the folder called mixtrisFiles in your installed Mixtris application folder.  You can copy these back in if you decide to reinstall Mixtris.  
+ 2. Make sure Mixtris is closed
+ 3. Drag your installed Mixtris application folder to the trash.  Thats it!
 
-#####OSX
+
+####OSX
 
  1. Download installer [Mixtris_OSX_Setup.zip](https://s3.amazonaws.com/mixtris_release/Mixtris_OSX_Setup.zip)
  2. Double click your downloaded "Mixtris_OSX_Setup.zip" file. 
  3. Drag the unzipped Mixtris folder into your application folder or wherever you wish to install it.
  4. Launch Mixtris by double clicking "Mixtris.app" contained in your Mixtris folder, or if extensions are hidden, the one just named "Mixtris".
+
+#####Uninstall
+
+ 1. Backup the folder called mixtrisFiles in your installed Mixtris application folder.  You can copy these back in if you decide to reinstall Mixtris.  
+ 2. Make sure Mixtris is closed
+ 3. Drag your installed Mixtris application folder to the trash.  Thats it!
 
 ###Build Your Own Install
 ------
