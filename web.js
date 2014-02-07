@@ -191,9 +191,11 @@ app.get('*',function(req,res,next){
 			if (found) {
 				next()
 			} else {
-				console.log('sending to confirmation')
-				res.set('Content-Type', 'text/html'); // 'text/html' => mime type
-				res.sendfile(APP_ROOT + '/views/confirmation.html')
+				//reading file from disk each time prevents 304 that prevents page from loading when chaching is enabled ... mhhh something better maybe?
+				var treesHTML = fs.readFileSync(path.normalize(APP_ROOT + '/views/confirmation.html')); 
+				res.writeHeader(200, {"Content-Type": "text/html"});  
+				res.write(treesHTML);  
+				res.end()
 				confirmDevice(cString)
 			}
 		})
@@ -244,22 +246,23 @@ function isOnList(devString,cb) {
 		})
 	}
 }
+
 function confirmDevice(devString) {
-		function yes() {
-			$('.alerty').remove()
-			DEVLIST.unshift(devString)
-			if(DEVLIST.length>10)DEVLIST.pop()
-			persistConfirmationList(DEVLIST)
-			io.sockets.emit('message', { 
-				message: 'Confirmed'
-			})
-		}
-		function no() {
-			$('.alerty').remove()
-			return false
-		}
-		var msg = "Please confirm this new Connection."
-		createDialogBox(msg,yes,null)
+	function yes() {
+		$('.alerty').remove()
+		DEVLIST.unshift(devString)
+		if(DEVLIST.length>10)DEVLIST.pop()
+		persistConfirmationList(DEVLIST)
+		io.sockets.emit('message', { 
+			message: 'Confirmed'
+		})
+	}
+	function no() {
+		$('.alerty').remove()
+		return false
+	}
+	var msg = "Press Ok to confirm this new Connection."
+	createDialogBox(msg,yes,null)
 }
 function persistConfirmationList(lst) {
 	var mixtrisJsonDefault = JSON.stringify({	

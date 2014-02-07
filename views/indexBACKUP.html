@@ -61,7 +61,7 @@
 			margin-right:auto;
 		}
 		.rowSpacer {
-			height:20%;
+			height:4%;
 		}
 		.rowSpacerSmall {
 			height:2%;
@@ -186,8 +186,8 @@
 		font-size:15px;
 		text-align:center;
 		margin-bottom:5px;
-		margin-left:50px;
-		margin-right:50px;
+		margin-left:200px;
+		margin-right:200px;
 	}
 		#icon{
 			height:30px;
@@ -198,36 +198,158 @@
 			letter-spacing:4px;
 			margin:0px;
 		}
-		#inner2{
-			font-size:60px;
-			margin:0px;
-		}
-	</style>	 
+	</style>	
   </head>
 <script type="text/javascript" charset="utf-8" src="../public/js/socket.io.js"></script>
 <script>
 </script>
  <body>
 	
-	<script type="text/javascript" charset="utf-8" src="../public/js/start_confirmation.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../public/js/start.js"></script>
+	
 	<div id="topPadder">
 	</div>
 	</div>
 		<div id="mainTitle">
-			<img id="icon" src="./public/js/icon.ico">
-			</img>
-			<span id="inner">ixtris
+		<img id="icon" src="./public/js/icon.ico">
+		</img>
+		<span id="inner">ixtris
+		</span>
+	</div>
+	<div id="masterCt" class="hideOnStart">
+		<div class="rowSpacerSmall">
+		</div>
+		<div class="topRow">
+			<span class="rackSpacerTop">
+			</span>
+			<span id="start" class="button twoRackTop">
+				<span class="label">
+					Sound On
+				</span>
+			</span>
+			<span class="rackSpacerTop">
+			</span>
+			<span id="off" class="button twoRackTop">
+				<span class="label">
+					All Off
+				</span>
+			</span>
+		</div>
+		<div class="rowSpacerSmall">
+		</div>
+		<div id="letters">
+			
+			<span class="voteCt threeRack">
+				<span id="votelabel" class="label">
+				</span>
+			</span>
+			<div class="dirRow">
+				<span id="libraryFolder" >Folder: No staged mixes
+				</span>
+			</div>
+			<div class="titleRow">
+				<span id="albumNames" class="">
+				</span>
+			</div>
 		</div>
 		<div class="rowSpacer">
 		</div>
-		
-		
-		<div id="mainTitle">
+		<div class="rowSmall">
+			<span class="rackSpacerTwo">
 			</span>
-			<span id="inner2">Please confirm this connection on Mixtris.
+			<audio id="audio" src="" preload="metadata" controls>
+			</audio>
+			<span id="start" class="buttonInvisible twoRack">
+			</span>
+			<span class="rackSpacerTwo">
+			</span>
+			<!-- <span class="voteCt twoRack">
+				<span id="votelabel" class="label">
+				</span>
+			</span> -->
+		</div>
+		<div class="rowSpacer">
+		</div>
+		<div class="row">
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="downvote" class="button twoRack">
+				<span class="label arrow">
+					&#8595;
+				</span>
+			</span>
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="upvote" class="button twoRack">
+				<span class="label arrow">
+					&#8593;
+				</span>
 			</span>
 		</div>
-	</div>
+		<div class="rowSpacer">
+		</div>
+		<div class="row">
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="last" class="button twoRack">
+				<span class="label arrow">
+					Back
+				</span>
+			</span>
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="forward" class="button twoRack">
+				<span class="label arrow">
+					Next 
+				</span>
+			</span>
+		</div>
+		
+		<div class="rowSpacer">
+		</div>
+		<div class="rowBottom">
+			<span class="rackSpacer">
+			</span>
+			<span class="buttonsLabelBottom">
+				Included<br> Mixes
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleMinus" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Bad
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleSkipped" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Skipped
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleZero" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					New
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleOne" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Good
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleTwo" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Amazing
+				</span>
+			</span>
+		</div>
+	<!-- <div id="copywrite" class="hideOnStart">&copy; 2014 by Nicholas Jorgensen. All rights reserved.</div> -->
 </body>
 
 </html>

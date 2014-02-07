@@ -2,24 +2,17 @@
 
 $(document).ready(function() { 
 	launchApp()
-	$("#audio")[0].addEventListener('ended', function(){
-		commandTransmitter.nextSong()
-	})
 	$('audio').on('play', function (e) {
 		console.log('playevent')
+		
 		$("#start").find('.label').text("Sound Off")
 		PLAYHERE = true
 	});
 	$('audio').on('pause', function (e) {
-		// console.log('playevent')
-		// $("#start").find('.label').text("Sound On")
-		// PLAYHERE = false
+		console.log('playevent')
+		$("#start").find('.label').text("Sound On")
+		PLAYHERE = false
 	});
-	$('audio')[0].addEventListener('error', function(e) {
-	//handles ios cannot play error by playing next song ... popup still occurs
-		commandTransmitter.nextSong()
-		console.log('error with mp3')
-	}, false);
 })
 function launchApp() {
 	squeezeText()
@@ -27,6 +20,9 @@ function launchApp() {
 	$('.hideOnStart').css('display','block')
 	startSongCLIENT()
 	updateShuffle()
+	$("#audio")[0].addEventListener('ended', function(){
+		commandTransmitter.nextSong()
+	})
 }
 
 var socket = io.connect(document.URL)
