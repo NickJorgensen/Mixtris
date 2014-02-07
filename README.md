@@ -12,9 +12,10 @@ Installation
 ------
 
 #####Windows
- 1. Download installer [Mixtris_Win_Setup.zip](https://s3.amazonaws.com/mixtris_release/Mixtris_Win_Setup.zip)
- 2. Double click the your downloaded “Mixtris_Win_Setup.exe” and follow the instructions.
- 3. Launch Mixtris by double clicking your installed Mixtris.exe or Mixtris desktop shortcut.
+ 1. Download zipped folder [Mixtris_Win_Setup.zip](https://s3.amazonaws.com/mixtris_release/Mixtris_Win_Setup.zip)
+ 2. Unzip the contents into its own folder, usually by right-clicking on the folder and selecting Extract All...
+ 3. Drag the unzipped folder into one of your User account folders, i.e. Documents Folder, Desktop Folder, Music, or Pictures folder.  Mixtris must be run as administrator if you do not place it in one of the current Users folders.
+ 3. To launch Mixtris, double click the Mixtris.exe file, or if extensions are hidden, the one just named Mixtris.
 
 #####OSX
 
@@ -25,8 +26,6 @@ Installation
 
 ###Build Your Own Install
 ------
-
-Mixtris is basically just a web app minus the server.  In order to run Mixtris without a server, Mixtris uses a program built by Intel called [Node-Webkit](https://github.com/rogerwang/node-webkit).   
 
 #####Windows
 
