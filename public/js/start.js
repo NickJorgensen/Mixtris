@@ -3,7 +3,9 @@
 $(document).ready(function() { 
 	launchApp()
 	$("#audio")[0].addEventListener('ended', function(){
-		commandTransmitter.nextSong()
+		if(PLAYHERE) { 
+			commandTransmitter.nextSong()
+		}
 	})
 	$('audio').on('play', function (e) {
 		console.log('playevent')
@@ -16,8 +18,10 @@ $(document).ready(function() {
 		// PLAYHERE = false
 	});
 	$('audio')[0].addEventListener('error', function(e) {
-	//handles ios cannot play error by playing next song ... popup still occurs
-		commandTransmitter.nextSong()
+	//handles cannot play error by playing next song ... popup still occurs
+		if(PLAYHERE) { 
+			commandTransmitter.nextSong()
+		}
 		console.log('error with mp3')
 	}, false);
 })
