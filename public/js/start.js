@@ -1,29 +1,33 @@
 
 
-$(document).ready(function() { 
-	launchApp()
-	$("#audio")[0].addEventListener('ended', function(){
+function addAudioEvents(audioJq) {
+	audioJq[0].addEventListener('ended', function(){
 		if(PLAYHERE) { 
 			commandTransmitter.nextSong()
 		}
 	})
-	$('audio').on('play', function (e) {
+	audioJq.on('play', function (e) {
 		console.log('playevent')
-		$("#start").find('.label').text("Sound Off")
+		$("#start").find('.label').text("Pause")
 		PLAYHERE = true
 	});
-	$('audio').on('pause', function (e) {
+	audioJq.on('pause', function (e) {
 		// console.log('playevent')
-		// $("#start").find('.label').text("Sound On")
+		// $("#start").find('.label').text("Play Here")
 		// PLAYHERE = false
 	});
-	$('audio')[0].addEventListener('error', function(e) {
+	audioJq[0].addEventListener('error', function(e) {
 	//handles cannot play error by playing next song ... popup still occurs
 		if(PLAYHERE) { 
 			commandTransmitter.nextSong()
 		}
 		console.log('error with mp3')
 	}, false);
+
+}
+$(document).ready(function() { 
+	launchApp()
+	// addAudioEvents($('audioPlayer'))
 })
 function launchApp() {
 	squeezeText()
@@ -54,6 +58,7 @@ var commandTransmitter = (function () {
 		bindUIEvents($('#off'),allOff)
 		
 		bindUIEvents($('#shuffleMinus'),setSuffleValue)
+		bindUIEvents($('#shufflePlayed'),setSuffleValue)
 		bindUIEvents($('#shuffleZero'),setSuffleValue)
 		bindUIEvents($('#shuffleOne'),setSuffleValue)
 		bindUIEvents($('#shuffleTwo'),setSuffleValue)
@@ -104,9 +109,9 @@ function startSongCLIENT() {
 			getVoteCount()
 			getCurrentLibrary()
 			console.log(url)
-			$("#audio")[0].src = url
+			if($("#audioPlayer").length>0)$("#audioPlayer")[0].src = url
 			if(PLAYHERE) {
-				$("#audio")[0].play()
+				$("#audioPlayer")[0].play()
 			}
 			squeezeText()
 		}
@@ -129,7 +134,7 @@ function startSongCLIENT() {
 }
 function handleMessage(data) {
 	console.log(data.message)
-	if(data.message=='Next') startSongCLIENT()
+	if(data.message=='Advance') startSongCLIENT()
 	if(data.message=='Previous') startSongCLIENT()
 	if(data.message=='VoteUpdate') getVoteCount()
 	if(data.message=='UpdateShuffle') updateShuffle()
@@ -140,17 +145,12 @@ function sendUserToIndex() {
 	alert(window.location)
 
 }
-(function(){
-
-alert('d')
-})
 function turnOffSpeaker() {
-		if(PLAYHERE) {
-			PLAYHERE = false
-			$("#start").find('.label').text("Sound On")
-			$("#audio")[0].pause()
-		}
-		squeezeText()
+	//destory all players
+	$('#audioPlayer').remove()
+	PLAYHERE = false
+	$("#start").find('.label').text("Play Here")
+	squeezeText()
 }
 function createDialogBox(msg,func1,func2) {
 		// function yes() {
@@ -235,6 +235,9 @@ function updateShuffle() {
 			if(k=='shuffleMinus') {
 				$('#'+k).css('background-color',shuffleMinusColor)
 			}
+			if(k=='shufflePlayed') {
+				$('#'+k).css('background-color',shufflePlayedColor)
+			}
 			if(k=='shuffleSkipped'){
 				$('#'+k).css('background-color',shuffleSkippedColor)
 			}
@@ -252,6 +255,7 @@ var shuffleTwoColor = 'rgb(165,30,222)'
 var shuffleOneColor = 'rgb(38,142,163)'
 var shuffleSkippedColor = 'rgb(232,222,21)'
 var shuffleMinusColor = 'firebrick'
+var shufflePlayedColor = 'lightBlue'
 var shuffleZeroColor = 'rgb(118,228,25)'
 function getVoteCount() {
 	$.ajax({
@@ -264,6 +268,10 @@ function getVoteCount() {
 		if(count==-14) {
 			count = 'Skipped'
 			color = shuffleSkippedColor
+		}
+		if(count==-4) {
+			count = 'Played'
+			color = shufflePlayedColor
 		}
 		if(count==-1) {
 			count = 'Bad'
@@ -299,15 +307,20 @@ function getCurrentLibrary() {
 } 
 var PLAYHERE = false
 function playStopToggle() {
-console.log(PLAYHERE)
 	if(!PLAYHERE) { 
 		PLAYHERE = true
-		$("#start").find('.label').text("Sound Off")
-		$("#audio")[0].play()
+		$("#start").find('.label').text("Pause")
+		if($('#audioPlayer').length==0) {
+			var audio = $("<audio></audio>").attr('id','audioPlayer').attr('preload','metadata').attr('controls','').appendTo('#audioCt')
+			addAudioEvents(audio)
+			startSongCLIENT()
+		} else {
+			$('#audioPlayer')[0].play()
+		}
 	} else {
 		PLAYHERE = false
-		$("#start").find('.label').text("Sound On")
-		$("#audio")[0].pause()
+		$("#start").find('.label').text("Play Here")
+		$("#audioPlayer")[0].pause()
 	}
 	squeezeText()
 }

@@ -55,6 +55,7 @@
 				height:100%;
 			}
 		.rowSmall {
+			/*display:none;*/
 			height:10%;
 			width:95%;
 			margin-left:auto;
@@ -125,10 +126,13 @@
 			white-space: nowrap;
 		}
 		.fiveRack {
-			width:11%;
+			width:10.8%;
 			height:75%;
 		}
-		#audio{
+		#audioPlayer{
+			position:absolute;
+		}
+		#audioCt{
 			position:absolute;
 		}
 		.placeHolder {
@@ -182,6 +186,13 @@
 			margin-top:-8%;
 			box-shadow:2px 2px 15px darkgrey;
 		}
+	.underliner {
+		width:25%;
+		height:10px;
+		margin-left:auto;
+		margin-right:auto;
+		border-bottom:1px solid grey;
+	}
 	#mainTitle{
 		font-size:15px;
 		text-align:center;
@@ -224,7 +235,7 @@
 			</span>
 			<span id="start" class="button twoRackTop">
 				<span class="label">
-					Sound On
+					Play Here
 				</span>
 			</span>
 			<span class="rackSpacerTop">
@@ -234,6 +245,8 @@
 					All Off
 				</span>
 			</span>
+		</div>
+		<div class="rowSpacerSmall">
 		</div>
 		<div class="rowSpacerSmall">
 		</div>
@@ -252,21 +265,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="rowSpacer">
-		</div>
-		<div class="rowSmall">
-			<span class="rackSpacerTwo">
-			</span>
-			<audio id="audio" src="" preload="metadata" controls>
-			</audio>
-			<span id="start" class="buttonInvisible twoRack">
-			</span>
-			<span class="rackSpacerTwo">
-			</span>
-			<!-- <span class="voteCt twoRack">
-				<span id="votelabel" class="label">
-				</span>
-			</span> -->
+		<div class="rowSpacerSmall">
 		</div>
 		<div class="rowSpacer">
 		</div>
@@ -305,14 +304,16 @@
 			</span>
 		</div>
 		
+				<!-- <div class="underliner">
+				</div> -->
 		<div class="rowSpacer">
 		</div>
 		<div class="rowBottom">
-			<span class="rackSpacer">
+			<!-- <span class="rackSpacer">
 			</span>
 			<span class="buttonsLabelBottom">
 				Included<br> Mixes
-			</span>
+			</span> -->
 			<span class="rackSpacer">
 			</span>
 			<span id="shuffleMinus" class="button fiveRack">
@@ -325,6 +326,13 @@
 			<span id="shuffleSkipped" class="button fiveRack">
 				<span class="descriptiveLabel label">
 					Skipped
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shufflePlayed" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Played
 				</span>
 			</span>
 			<span class="rackSpacer">
@@ -348,6 +356,24 @@
 					Amazing
 				</span>
 			</span>
+		</div>
+		<div class="rowSpacerSmall">
+		</div>
+		<div class="rowSmall">
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="audioCt">
+				<!-- <audio id="audioPlayer" src="" preload="metadata" controls>
+				</audio> -->
+			</span>
+			<span id="start" class="buttonInvisible twoRack">
+			</span>
+			<span class="rackSpacerTwo">
+			</span>
+			<!-- <span class="voteCt twoRack">
+				<span id="votelabel" class="label">
+				</span>
+			</span> -->
 		</div>
 	<!-- <div id="copywrite" class="hideOnStart">&copy; 2014 by Nicholas Jorgensen. All rights reserved.</div> -->
 </body>

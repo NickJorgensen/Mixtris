@@ -105,7 +105,7 @@ function handleSocketIOCommands(data) {
 		skipToNext()
 	} 
 	if(data=='Next') {
-		stageNext()
+		playToNext()
 	}  
 	if(data=='Previous') { 
 		PREVIOUSINDEX ++
@@ -142,6 +142,7 @@ function handleSocketIOCommands(data) {
 		data=='shuffleZero'|| 
 		data=='shuffleOne'||
 		data=='shuffleTwo' ||
+		data=='shufflePlayed' ||
 		data=='shuffleSkipped'
 		
 		) {
@@ -163,9 +164,10 @@ function setShuffleValue(dt) {
 	if (dt=='shuffleOne') return 1
 	if (dt=='shuffleTwo') return 2
 	if (dt=='shuffleSkipped') return -14
+	if (dt=='shufflePlayed') return -4
 }
 function generateUUID(){
-//http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+	//http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
@@ -191,7 +193,7 @@ app.get('*',function(req,res,next){
 			if (found) {
 				next()
 			} else {
-				//reading file from disk each time prevents 304 that prevents page from loading when chaching is enabled ... mhhh something better maybe?
+				//reading file from disk each time prevents 304 that prevents page from loading blank when chaching is enabled ... mhhh something better maybe?
 				var treesHTML = fs.readFileSync(path.normalize(APP_ROOT + '/views/confirmation.html')); 
 				res.writeHeader(200, {"Content-Type": "text/html"});  
 				res.write(treesHTML);  
@@ -327,8 +329,8 @@ function getRandomUrl() {
 		//yay 
 		return randomKey
 	} else {
-		// no songs found with this shuffle SHUFFLE_VALUE so return any New url Good url or Amazing Url
-		var dummyVal = {a:0,b:1,c:2}
+		// no songs found with this shuffle SHUFFLE_VALUE so return any New url Good url or Amazing Url or Played Url
+		var dummyVal = {a:0,b:1,c:2,d:-4}
 		var randomKey1 = returnRandomWithShuffleValue(dummyVal)
 		if(randomKey1) {
 			return randomKey1
@@ -401,6 +403,21 @@ function addToPreviousList(url) {
 	ALL_LIB[CR_LIB].LAST_PLAYED_LIST.unshift(url)
 	if(ALL_LIB[CR_LIB].LAST_PLAYED_LIST.length>500)ALL_LIB[CR_LIB].LAST_PLAYED_LIST.pop()
 }
+function playToNext() {
+	if(PREVIOUSINDEX===0) {
+		if(URLTOSTREAM) {
+			var url = URLTOSTREAM
+			if(ALL_LIB[CR_LIB].SCORED_MUSIC[url] == 0) {
+				var currentScore = -4
+				ALL_LIB[CR_LIB].SCORED_MUSIC[url] = currentScore
+			}
+		}
+		stageNext()
+	} else {
+		PREVIOUSINDEX--	
+		stagePrevious()
+	}	
+}
 function skipToNext() {
 	if(PREVIOUSINDEX===0) {
 		if(URLTOSTREAM) {
@@ -422,7 +439,7 @@ function stageNext() {
 	if(PREVIOUSINDEX===0) {
 		stageURLTOSTREAM(randomSong)
 		io.sockets.emit('message', { 
-			message: 'Next'
+			message: 'Advance'
 		})
 		addToPreviousList(randomSong)
 	} else {
