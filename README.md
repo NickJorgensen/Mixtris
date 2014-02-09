@@ -12,11 +12,9 @@ Installation
 ------
 
 #####Windows
- 1. Download zipped folder [Mixtris_Win_Setup.zip](https://s3.amazonaws.com/mixtris_release/Mixtris_Win_Setup.zip)
- 2. Unzip this folder usually by right-clicking on the folder and selecting Extract All...
- 3. Drag the unzipped folder into one of your User account folders, i.e. Documents Folder, Desktop Folder, Music, or Pictures folder.  
-*NOTE: If you decide to install your Mixtis folder in one of your "Program Files" or "Program Files (x86)" folders, Mixtris MUST be run as administrator.
- 4. To launch Mixtris, open your Mixtris Folder and double click on the "Mixtris.exe" file, or if extensions are hidden, the one just named "Mixtris".
+ 1. Download installer [Mixtris_Win_Setup.zip](https://s3.amazonaws.com/mixtris_release/Mixtris_Win_Setup.zip)
+ 2. Double click the your downloaded “Mixtris_Win_Setup.exe” and follow the instructions.
+ 3. Launch Mixtris by double clicking your installed Mixtris.exe or Mixtris desktop shortcut.
 
 ####OSX
 
