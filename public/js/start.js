@@ -109,7 +109,13 @@ function startSongCLIENT() {
 			getVoteCount()
 			getCurrentLibrary()
 			console.log(url)
-			if($("#audioPlayer").length>0)$("#audioPlayer")[0].src = url
+			if($("#audioPlayer").length>0) {
+				$("#audioPlayer")[0].src = url
+				
+				
+				//need to .load() source before play()
+				$("#audioPlayer")[0].load()
+			}
 			if(PLAYHERE) {
 				$("#audioPlayer")[0].play()
 			}

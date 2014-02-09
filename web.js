@@ -181,9 +181,15 @@ app.get('*',function(req,res,next){
 		var cookie_string = ''
 		expiration_date.setFullYear(expiration_date.getFullYear() + 1)
 		cookie_string = "user="+uid+"; path=/; expires=" + expiration_date.toGMTString()
-		res.set('Content-Type', 'text/html')
+		// res.set('Content-Type', 'text/html')
+		// res.set('Set-Cookie', cookie_string)
+		// res.sendfile(APP_ROOT + '/views/confirmation.html',)
+		
+		var treesHTML = fs.readFileSync(path.normalize(APP_ROOT + '/views/confirmation.html')); 
 		res.set('Set-Cookie', cookie_string)
-		res.sendfile(APP_ROOT + '/views/index.html')
+		res.writeHeader(200, {"Content-Type": "text/html"});  
+		res.write(treesHTML);  
+		res.end()
 	} else {
 		var cString = req.headers.cookie.split('=').pop()
 		isOnList(cString,function(found) {

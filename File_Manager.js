@@ -5,6 +5,7 @@ var APPDATAPATH = getUserHome()
 console.log(APPDATAPATH)
 console.log(process.env)
 function getUserHome() {
+	// builds path to AppData in Windows and Users Library in OSX  path for application file handeling
 	var rt
 	if(platform == 'win32')rt = path.join(process.env['HOME'],'AppData','Local')
 	if(platform == 'darwin')rt = path.join(process.env['HOME'],'Library')
@@ -390,7 +391,6 @@ function scanDirectory(dir,cb) {
 				var ext = path.extname(file)
 				var fileName = file.split(path.sep)
 				fileName = fileName[fileName.length-1]
-				if(fileName === 'Mixtris.exe') alert('warning: you have selected a folder that contains your mixtris program ... maybe you should pick another')
 				if(ext=='.mp3' || ext=='.m4a'|| ext=='.json'|| ext=='.m4p') {
 					results.push(file);
 				}
