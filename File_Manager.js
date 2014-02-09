@@ -1,13 +1,26 @@
 var mkdirp = require('mkdirp');
 var MUSIC_ROOT
+
+var APPDATAPATH = getUserHome()
+console.log(APPDATAPATH)
+console.log(process.env)
+function getUserHome() {
+	var rt
+	if(platform == 'win32')rt = path.join(process.env['HOME'],'AppData','Local')
+	if(platform == 'darwin')rt = path.join(process.env['HOME'],'Library')
+	return rt;
+}
+
+
 var library = (function() {
 	var self = {}
 	function getAllLibraryFiles(cb) {
 		var retTheseLib = []
 		var resLength = 0
-		scanDirectory(APP_ROOT+"/mixtrisFiles",function(res1){
+		var pth = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles")
+		scanDirectory(pth,function(res1){
 			if(!res1) {
-				makeMixtrisFilesDirectory()
+				makeMixtrisAppFilesDirectory()
 				cb(null)
 				return
 			}
@@ -20,9 +33,15 @@ var library = (function() {
 				loadLibraryFile(res1[i])
 			}
 		})
-		function makeMixtrisFilesDirectory() {
-			mkdirp(APP_ROOT+"/mixtrisFiles", function(err) { 
-				if(err) console.log(err)
+		function makeMixtrisAppFilesDirectory() {
+			
+			var pth = path.join(APPDATAPATH,"/Mixtris")
+			mkdirp(pth, function(err) { 
+				if(err) throw err
+				var pthMixFiles = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles")
+				mkdirp(pthMixFiles, function(err) { 
+					if(err) throw err
+				})
 			})
 		}
 		function loadLibraryFile(location) {
@@ -158,9 +177,9 @@ var library = (function() {
 			}
 	}
 	function deleteMixtrisFile(file) {
-		var path = APP_ROOT+"/mixtrisFiles/"+file
+		var pth = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles",file)
 		if (window.confirm("Do you want to remove this mix?\nYou will loose all your ratings and mix info.")) { 
-			fs.unlink(path,function(err,msg) {
+			fs.unlink(pth,function(err,msg) {
 				delete ALL_LIB[file]
 				CR_LIB = randomToggleLibrary()
 				printLibraryNamesToConsole()
@@ -251,7 +270,8 @@ var library = (function() {
 			WEIGHT : weight
 		}, null, 4)
 		console.log('d')
-		fs.writeFile(APP_ROOT+"/mixtrisFiles/"+fName,mixtrisJsonDefault,'utf8',function(err) {
+		var pth = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles",fName)
+		fs.writeFile(pth,mixtrisJsonDefault,'utf8',function(err) {
 			if (err) {
 				throw err;
 			}
@@ -291,7 +311,8 @@ function scanMixtrisFolderForUpdates(dir,fname,cb) {
 	})
 }
 function generateUniqueMixtrisFile(cb) {
-	scanDirectory(APP_ROOT+"/mixtrisFiles",function(res1){
+	var pth = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles")
+	scanDirectory(pth,function(res1){
 		var nameVal = 'mixtris.json'
 		var counter = 0
 		while(checkDup(nameVal) == false) {

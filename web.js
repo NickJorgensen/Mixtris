@@ -19,9 +19,6 @@ function signalAllOff() {
 		message: 'AllOff'
 	})
 }
-function getDeviceList(){
-
-}
 function createDialogBox(msg,func1,func2) {
 		// function yes() {
 			// $('.alerty').remove()
@@ -234,7 +231,8 @@ function isOnList(devString,cb) {
 		return
 	}
 	function getDeviceListFile(cb) {
-		fs.readFile(APP_ROOT+'deviceList.json','utf8', function (err, data) {
+		var pth = path.join(APPDATAPATH,"/Mixtris","deviceList.json")
+		fs.readFile(pth,'utf8', function (err, data) {
 			if(err) {
 				cb(null)
 				return	
@@ -270,7 +268,8 @@ function persistConfirmationList(lst) {
 	var mixtrisJsonDefault = JSON.stringify({	
 		list:lst
 	}, null, 4)
-	fs.writeFile(APP_ROOT+"deviceList.json",mixtrisJsonDefault,'utf8',function(err) {
+	var pth = path.join(APPDATAPATH,"/Mixtris","deviceList.json")
+	fs.writeFile(pth,mixtrisJsonDefault,'utf8',function(err) {
 		if (err) {
 			throw err;
 		} else {
@@ -278,11 +277,6 @@ function persistConfirmationList(lst) {
 			var pData = JSON.parse(mixtrisJsonDefault)
 		}
 	})
-	function makeMixtrisFilesDirectory() {
-		mkdirp(APP_ROOT+"/mixtrisFiles", function(err) { 
-			if(err) console.log(err)
-		})
-	}	
 }
 app.get('/getSuffleType',function(req,res){
 	res.json(SHUFFLE_VALUE)
