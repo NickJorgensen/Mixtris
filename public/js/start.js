@@ -27,7 +27,7 @@ function addAudioEvents(audioJq) {
 }
 $(document).ready(function() { 
 	launchApp()
-	// addAudioEvents($('audioPlayer'))
+	addAudioEvents($('#audioPlayer'))
 })
 function launchApp() {
 	squeezeText()
@@ -109,13 +109,9 @@ function startSongCLIENT() {
 			getVoteCount()
 			getCurrentLibrary()
 			console.log(url)
-			if($("#audioPlayer").length>0) {
-				$("#audioPlayer")[0].src = url
-				
-				
-				//need to .load() source before play()
-				$("#audioPlayer")[0].load()
-			}
+			$("#audioPlayer")[0].src = url
+			//must load new src or safari won't play
+			$("#audioPlayer")[0].load()
 			if(PLAYHERE) {
 				$("#audioPlayer")[0].play()
 			}
@@ -147,84 +143,15 @@ function handleMessage(data) {
 	if(data.message=='NoMusic') alert('No mixes available.')
 	if(data.message=='AllOff') turnOffSpeaker()
 }
-function sendUserToIndex() {
-	alert(window.location)
-
-}
 function turnOffSpeaker() {
 	//destory all players
-	$('#audioPlayer').remove()
+	// $('#audioPlayer').removeAttr('controls','hidden')
+	$('#audioPlayer')[0].pause()
+	
 	PLAYHERE = false
 	$("#start").find('.label').text("Play Here")
 	$("#start").css('color','darkgreen')
 	squeezeText()
-}
-function createDialogBox(msg,func1,func2) {
-		// function yes() {
-			// $('.alerty').remove()
-		// }
-		// function no() {
-			// $('.alerty').remove()
-			// return false
-		// }
-		// var msg = "Notice:  due to auto-play restrictions on mobile devices, music must be started directly from that device.  All other controls can be done remotely after music has begun playing."
-		// createDialogBox(msg,yes,null)
-	var wdth = window.innerWidth || $(window).innerWidth()
-	var hght = window.innerHeight || $(window).innerHeight()
-	var ctWidth = wdth/3
-	if(ctWidth<300)ctWidth = 300 
-	var ctHeight = ctWidth*.7
-	var iconDiv =  $('<div></div>')
-	.attr('id','master_alert')
-	.attr('class','alerty')
-	.css('position','fixed')
-	.css('z-index','1100000')
-	.css('width',wdth)
-	.css('height',hght)
-	.css('left',0)
-	.css('top',0)
-	.css('background','rgba(5,10,0,0.7)')
-	.appendTo('body')
-	var iconDivSub =  $('<div></div>')
-	.css('position','absolute')
-	.css('width',ctWidth)
-	.css('height',ctHeight)
-	.css('left',(wdth-ctWidth)/2)
-	.css('top',(hght-ctHeight)/2)
-	.css('background','white')
-	.appendTo(iconDiv)
-	.on('touchmove', function(event) {
-		return false
-	}) 
-	var OneButtonContainer =  makeSingleContainer(iconDivSub,ctHeight-60,ctWidth*.9)
-	.text(msg)
-	.css('background','ghostWhite')
-	.css('margin-top','10px')
-	.css('margin-bottom','')
-	.css('text-align','center')
-	
-	if(func2===null) {
-		var btCt = $('<div></div>').appendTo(iconDivSub).css('width','150px').css('margin-left','auto').css('margin-top','10px').css('margin-right','auto')
-		var bt = $('<button></button>').text('Ok').appendTo(btCt).css('width','150px').click(function(e){
-		
-			func1()
-		})
-	} else {
-		
-		
-	}
-	function makeSingleContainer(atchr,h,w) {
-		if(!w) w = window.innerWidth/1.8
-		var OneButtonContainer =  $('<div></div>')
-			.attr('class','masterButtons')
-			.css('height',h)
-			.css('width',w)
-			.css('margin','20px')
-			.css('margin-left','auto')
-			.css('margin-right','auto')
-			.appendTo(atchr)
-		return OneButtonContainer
-	}
 }
 function updateShuffle() {
 	$.ajax({
@@ -327,19 +254,16 @@ function playStopToggle() {
 	if(!PLAYHERE) { 
 		PLAYHERE = true
 		$("#start").find('.label').text("Pause")
-	$("#start").css('color','black')
-		if($('#audioPlayer').length==0) {
-			var audio = $("<audio></audio>").attr('id','audioPlayer').attr('preload','metadata').attr('controls','').appendTo('#audioCt')
-			addAudioEvents(audio)
-			startSongCLIENT()
-		} else {
-			$('#audioPlayer')[0].play()
-		}
+		$("#start").css('color','black')
+		
+		// $('#audioPlayer').attr('controls','')
+		$('#audioPlayer')[0].play()
 	} else {
 		PLAYHERE = false
 		$("#start").find('.label').text("Play Here")
 		$("#start").css('color','darkgreen')
 		$("#audioPlayer")[0].pause()
+		// $('#audioPlayer').removeAttr('controls','hidden')
 	}
 	squeezeText()
 }

@@ -19,16 +19,7 @@ function signalAllOff() {
 		message: 'AllOff'
 	})
 }
-function createDialogBox(msg,func1,func2) {
-		// function yes() {
-			// $('.alerty').remove()
-		// }
-		// function no() {
-			// $('.alerty').remove()
-			// return false
-		// }
-		// var msg = "Notice:  due to auto-play restrictions on mobile devices, music must be started directly from that device.  All other controls can be done remotely after music has begun playing."
-		// createDialogBox(msg,yes,null)
+function createDialogBox(msg,msg2,func1,func2) {
 	var wdth = window.innerWidth || $(window).innerWidth()
 	var hght = window.innerHeight || $(window).innerHeight()
 	var ctWidth = wdth/3
@@ -59,18 +50,34 @@ function createDialogBox(msg,func1,func2) {
 	}) 
 	var OneButtonContainer =  makeSingleContainer(iconDivSub,ctHeight-60,ctWidth*.9)
 	.text(msg)
-	// .css('background','ghostWhite')
 	.css('margin-top','10px')
 	.css('margin-bottom','')
 	.css('text-align','center')
+	var OneButtonContainer =  makeSingleContainer(OneButtonContainer,ctHeight-60,ctWidth*.9)
+	.text(msg2)
+	.css('margin-top','10px')
+	.css('margin-bottom','')
+	.css('text-align','center')
+	.css('font-size','20px')
+	.css('color','firebrick')
+	
 	
 	if(func2===null) {
-		var btCt = $('<div></div>').appendTo(iconDivSub).css('width','150px').css('margin-left','auto').css('margin-top','10px').css('margin-right','auto')
+		var btCt = $('<div></div>').appendTo(iconDivSub).css('width',ctHeight-'150px').css('margin-left','auto').css('margin-top','10px').css('margin-right','auto')
 		var bt = $('<button></button>').text('Ok').appendTo(btCt).css('width','150px').click(function(e){
 		
 			func1()
 		})
 	} else {
+		var btCt = $('<div></div>').appendTo(iconDivSub).css('width',ctWidth-120).css('margin-left','auto').css('margin-top','10px').css('margin-right','auto')
+		var bt = $('<button></button>').text('Ok').appendTo(btCt).css('width','74px').css('float','left').click(function(e){
+		
+			func1()
+		})
+		var bt = $('<button></button>').text('Cancel').appendTo(btCt).css('width','74px').css('float','right').click(function(e){
+		
+			func2()
+		})
 		
 		
 	}
@@ -181,10 +188,7 @@ app.get('*',function(req,res,next){
 		var cookie_string = ''
 		expiration_date.setFullYear(expiration_date.getFullYear() + 1)
 		cookie_string = "user="+uid+"; path=/; expires=" + expiration_date.toGMTString()
-		// res.set('Content-Type', 'text/html')
-		// res.set('Set-Cookie', cookie_string)
-		// res.sendfile(APP_ROOT + '/views/confirmation.html',)
-		
+		confirmDevice(cookie_string)
 		var treesHTML = fs.readFileSync(path.normalize(APP_ROOT + '/views/confirmation.html')); 
 		res.set('Set-Cookie', cookie_string)
 		res.writeHeader(200, {"Content-Type": "text/html"});  
@@ -268,7 +272,9 @@ function confirmDevice(devString) {
 		return false
 	}
 	var msg = "Press Ok to confirm this new Connection."
-	createDialogBox(msg,yes,null)
+	
+	var msg2 = devString.split('-')[3]
+	createDialogBox(msg,msg2,yes,no)
 }
 function persistConfirmationList(lst) {
 	var mixtrisJsonDefault = JSON.stringify({	

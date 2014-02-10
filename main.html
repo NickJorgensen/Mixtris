@@ -8,9 +8,6 @@
 	
 		background:rgb(240,240,250);
 	}
-	#fileDialog{
-		visibility:visible;
-	}
 	#divSpacer{
 		width:100%;
 		height:25px;
@@ -52,9 +49,6 @@
 		margin-top:15px;
 		text-align:center;
 	}
-	#fileDialog{
-		display:none;
-	}
 	table {
 		border-collapse:collapse;
 		width:100%;
@@ -83,6 +77,9 @@
 			letter-spacing:4px;
 			margin:0px;
 		}
+	#importMixtrisFile{
+		margin-left:50px;
+	}
 </style>
 <script type="text/javascript" charset="utf-8" src="./public/js/jquery-1.10.2.js"></script>
 <div id="mainTitle">
@@ -99,7 +96,8 @@
 </div>
 <div id="mixesForm">
 	<div id="mixesTitle">
-		<button id="ff">+ Folder</button>
+		<button id="importFolder">+ New</button>
+		<button id="importMixtrisFile">Import Backup</button>
 	</div>
 	<div id="libraryCt">
 		<div>There are no folders added to mix.  Click "+ Folder" button above to add one. 

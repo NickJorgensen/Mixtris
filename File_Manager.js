@@ -47,26 +47,12 @@ var library = (function() {
 		}
 		function loadLibraryFile(location) {
 			if(!location) return
-			getMixtrisFile(location,function(ret){
+			getFileFromDiskHelper(location,function(ret){
 				ret['MIXTRIS_LOCATION'] = location
 				retTheseLib.push(ret)
 				if(resLength==retTheseLib.length) cb(retTheseLib)
 			})
 
-		}
-		function getMixtrisFile(location,cb) {
-			fs.readFile(location,'utf8', function (err, data) {
-				if(err) {
-					cb(null)
-					return
-				}
-				if(data) {
-					var pData = JSON.parse(data)
-					cb(pData)
-				} else {
-					cb(null)
-				}
-			})
 		}
 	}
 	function printLibraryNamesToConsole() {
@@ -91,21 +77,81 @@ var library = (function() {
 			buildDirectoryLabel(dt)
 			
 			var dt =$('<td></td>').appendTo(tr).attr('data-name',data.MIXTRIS_FILE)
+			buildMixtrisFileName(dt)
+			
+			
+			var dt =$('<td></td>').appendTo(tr).attr('data-name',data.MIXTRIS_FILE)
+			buildSaveButton(dt)
+			
+			var dt =$('<td></td>').appendTo(tr).attr('data-name',data.MIXTRIS_FILE)
 			buildDeleteButton(dt)
+			
+			function buildMixtrisFileName(attacher) {
+				$('<span></span>').appendTo(attacher)
+				.text(data.MIXTRIS_FILE).css('width','50px')
+			}
+			function buildDirectoryLabel(attacher) {
+				$('<span></span>').appendTo(attacher)
+				.text(data.MUSIC_DIRECTORY).css('width','50px')
+			}
 				
+			function buildImportButton(attacher) {
+				var bt = $('<button></button>').appendTo(attacher).attr('class','btFloat').attr('type','button').css('float','right').text('ImportBackup').click(function(){
+					var fInput = $('<input></input>').appendTo('body')
+					.css('display','none')
+					.attr('type','file')
+					.attr('nwsaveas','filename.json')
+					.change(function(evt) {
+						if(!$(this).val()) {
+							return false
+						}
+						var fileName = getFileNameFromPath(bt.parent().attr('data-name'))
+						if(!ALL_LIB[fileName]) return false
+						var libString = JSON.stringify(ALL_LIB[fileName], null, 4)
+						var pth = $(this).val()
+						fs.writeFile(pth,libString,'utf8',function(err) {
+							if (err) {
+								fInput.remove()
+								throw err;
+							}
+							fInput.remove()
+							return false
+						})
+					})
+					fInput.trigger('click')
+				})
+			}	
+			function buildSaveButton(attacher) {
+				var bt = $('<button></button>').appendTo(attacher).attr('class','btFloat').attr('type','button').css('float','right').text('Export Backup').click(function(){
+					var fInput = $('<input></input>').appendTo('body')
+					.css('display','none')
+					.attr('type','file')
+					.attr('nwsaveas','filename.json')
+					.change(function(evt) {
+						if(!$(this).val()) {
+							return false
+						}
+						var fileName = getFileNameFromPath(bt.parent().attr('data-name'))
+						if(!ALL_LIB[fileName]) return false
+						var libString = JSON.stringify(ALL_LIB[fileName], null, 4)
+						var pth = $(this).val()
+						fs.writeFile(pth,libString,'utf8',function(err) {
+							if (err) {
+								fInput.remove()
+								throw err;
+							}
+							fInput.remove()
+							return false
+						})
+					})
+					fInput.trigger('click')
+				})
+			}
 			function buildDeleteButton(attacher) {
 				$('<button></button>').appendTo(attacher).attr('class','btFloat').attr('type','button').css('float','right').text('Delete').click(function(e){
 					var fileName = getFileNameFromPath($(this).parent().attr('data-name'))
 					deleteMixtrisFile(fileName)
 				})
-			}
-			function buildDirectoryLabel(attacher) {
-				$('<span></span>').appendTo(attacher)
-				.text(data.MUSIC_DIRECTORY).css('width','50px')
-				// $('<button></button>').appendTo(attacher).attr('type','button').css('float','right').text('Update Directory').click(function(e){
-					// var fileName = getFileNameFromPath($(this).parent().attr('data-name'))
-					// changeDirectory(fileName)
-				// })
 			}
 			function buildWeight(attacher) {
 				$('<span></span>').appendTo(attacher).css('margin-right','10px').text('weight')
@@ -138,45 +184,6 @@ var library = (function() {
 			}
 		}
 	}
-	function changeDirectory(fName){
-		var fInput = $('<input></input>').appendTo('body')
-			.css('display','none')
-			.attr('type','file')
-			.attr('nwdirectory','')
-			.change(function(evt) {
-				var newMusicDirectory = $(this).val()
-				scanMoveDirectory(newMusicDirectory,function(){
-					// alert(newMusicDirectory)
-					ALL_LIB[fName].MUSIC_DIRECTORY = newMusicDirectory
-					saveMixtrisToDisk(fName,ALL_LIB[fName].MUSIC_DIRECTORY,function(){
-						library.printLibraryNamesToConsole()
-					})
-				})
-				fInput.remove()
-			})
-			fInput.trigger('click')
-			function scanMoveDirectory(dir,cb) {
-				scanDirectory(dir,function(results){
-					var missing = []
-					for (i = 0; i < results.length; i++) {
-						var url = results[i].split(dir).pop()
-						if(ALL_LIB[fName].SCORED_MUSIC[url] == undefined) {
-							missing.push(url)
-							console.log('missing')
-						} else {
-							console.log('found')
-						}
-					}
-					if(missing.length>0) {
-						if (window.confirm("There appears to be "+missing.length+" files missing\nWould you like to continue?")) { 
-							cb('done')
-						}
-					} else {
-						cb('done')
-					}
-				})
-			}
-	}
 	function deleteMixtrisFile(file) {
 		var pth = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles",file)
 		if (window.confirm("Do you want to remove this mix?\nYou will loose all your ratings and mix info.")) { 
@@ -204,7 +211,7 @@ var library = (function() {
 					lib[i]['MIXTRIS_FILE'] = fName
 					
 					ALL_LIB[fName]=lib[i]
-					console.log(lib[i])
+					// console.log(lib[i])
 				}
 				getNewSongsFromDirectory(function(){
 					loadDirectoryIntoExpress()
@@ -216,7 +223,6 @@ var library = (function() {
 			}
 		})
 		function loadDirectoryIntoExpress(){
-			//loads only directories with music, just in cas a user selects their entire hard drive, it won't make their entire computer an accessable static directory.
 			$.each(ALL_LIB,function(){
 				// console.log(this.MUSIC_DIRECTORY)
 				// var mDir = this.MUSIC_DIRECTORY
@@ -231,7 +237,7 @@ var library = (function() {
 					// app.use(express.static(k))
 				// })
 				app.use(express.static(this.MUSIC_DIRECTORY))
-				console.log(this.MUSIC_DIRECTORY)
+				// console.log(this.MUSIC_DIRECTORY)
 			})
 		}
 		function getNewSongsFromDirectory(cb){
@@ -245,12 +251,14 @@ var library = (function() {
 			})
 		}
 	}
-	function makeNewMix(location) {
-		generateUniqueMixtrisFile(function(msg){
+	function makeNewMix(mixName,location,cb) {
+		generateUniqueMixtrisFile(mixName,function(msg){
+			var newMixtrisFilName = msg 
 			saveMixtrisToDisk(msg,location,function(){
 				updateMixes(function(){
 					CR_LIB = randomToggleLibrary()
 					printLibraryNamesToConsole()
+					cb(newMixtrisFilName)
 				})
 			})
 		})
@@ -270,7 +278,6 @@ var library = (function() {
 			LAST_PLAYED_LIST : lastPlayed,
 			WEIGHT : weight
 		}, null, 4)
-		console.log('d')
 		var pth = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles",fName)
 		fs.writeFile(pth,mixtrisJsonDefault,'utf8',function(err) {
 			if (err) {
@@ -303,7 +310,6 @@ function scanMixtrisFolderForUpdates(dir,fname,cb) {
 	scanDirectory(dir,function(results){
 		for (i = 0; i < results.length; i++) {
 			var url = results[i].split(ALL_LIB[fname].MUSIC_DIRECTORY).pop()
-			// console.log(url)
 			if(ALL_LIB[fname].SCORED_MUSIC[url] == undefined) {
 				ALL_LIB[fname].SCORED_MUSIC[url] = 0
 			}
@@ -311,14 +317,14 @@ function scanMixtrisFolderForUpdates(dir,fname,cb) {
 		cb('done')
 	})
 }
-function generateUniqueMixtrisFile(cb) {
+function generateUniqueMixtrisFile(newNameVal,cb) {
 	var pth = path.join(APPDATAPATH,"/Mixtris","/mixtrisFiles")
 	scanDirectory(pth,function(res1){
-		var nameVal = 'mixtris.json'
+		nameVal = newNameVal+'.json'
 		var counter = 0
 		while(checkDup(nameVal) == false) {
 			counter++
-			nameVal = 'mixtris'+counter+'.json'
+			nameVal = newNameVal+'_'+counter+'.json'
 		}
 		cb(nameVal)
 		function checkDup(nv) {
@@ -340,17 +346,7 @@ function getFileNameFromPath(pString) {
 }
 initMusicDirectorySelector(function(){})
 function initMusicDirectorySelector(cb) {
-	var chooser = $('#fileDialog')
-	chooser.change(function(evt) {
-		if(!$(this).val()) {
-			cb('done')
-			return
-		}
-		library.makeNewMix($(this).val())
-		cb('done')
-	});
-	
-	$('#ff').click(function(){
+	$('#importFolder').click(function(){
 		var fInput = $('<input></input>').appendTo('body')
 		.css('display','none')
 		.attr('type','file')
@@ -360,11 +356,55 @@ function initMusicDirectorySelector(cb) {
 				cb('done')
 				return
 			}
-			library.makeNewMix($(this).val())
-			cb('done')
+			library.makeNewMix('mixtris',$(this).val(),function(name){})
 			fInput.remove()
+			cb('done')
 		})
 		fInput.trigger('click')
+	})
+	$('#importMixtrisFile').click(function(){
+		var fInput2 = $('<input></input>').appendTo('body')
+		.css('display','none')
+		.attr('type','file')
+		.attr('accept','.json')
+		.change(function(evt) {
+			if(!$(this).val()) {
+				cb('done')
+				return
+			}
+			console.log($(this).val())
+			var pth = $(this).val()
+			importedName = path.basename(pth, '.json')
+			getFileFromDiskHelper(pth,function(dt){
+				library.makeNewMix(importedName,dt.MUSIC_DIRECTORY,function(name){
+					delete ALL_LIB[name].SCORED_MUSIC
+					delete ALL_LIB[name].WEIGHT
+					delete ALL_LIB[name].LAST_PLAYED_LIST
+					ALL_LIB[name]['SCORED_MUSIC'] = dt.SCORED_MUSIC					
+					ALL_LIB[name]['WEIGHT'] = dt.WEIGHT					
+					ALL_LIB[name]['LAST_PLAYED_LIST'] = dt.LAST_PLAYED_LIST					
+					library.saveMixtrisToDisk(ALL_LIB[name].MIXTRIS_FILE,ALL_LIB[name].MUSIC_DIRECTORY,function(){
+					})
+				})
+			})
+			fInput2.remove()
+			cb('done')
+		})
+		fInput2.trigger('click')
+	})
+}
+function getFileFromDiskHelper(location,cb) {
+	fs.readFile(location,'utf8', function (err, data) {
+		if(err) {
+			cb(null)
+			return
+		}
+		if(data) {
+			var pData = JSON.parse(data)
+			cb(pData)
+		} else {
+			cb(null)
+		}
 	})
 }
 function scanDirectory(dir,cb) {
@@ -404,3 +444,25 @@ function scanDirectory(dir,cb) {
 		cb(results)
 	})
 }
+
+// function scanMoveDirectory(dir,cb) {
+	// scanDirectory(dir,function(results){
+		// var missing = []
+		// for (i = 0; i < results.length; i++) {
+			// var url = results[i].split(dir).pop()
+			// if(ALL_LIB[fName].SCORED_MUSIC[url] == undefined) {
+				// missing.push(url)
+				// console.log('missing')
+			// } else {
+				// console.log('found')
+			// }
+		// }
+		// if(missing.length>0) {
+			// if (window.confirm("There appears to be "+missing.length+" files missing\nWould you like to continue?")) { 
+				// cb('done')
+			// }
+		// } else {
+			// cb('done')
+		// }
+	// })
+// }
