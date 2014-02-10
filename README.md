@@ -56,8 +56,11 @@ Installation
 
 Uninstall
 =======
-#####Windows & OSX
- 1. Backup the folder called "mixtrisFiles" found in your installed Mixtris application folder.  You can copy these back in if you decide to reinstall Mixtris.  
- 2. Make sure Mixtris is closed
- 3. Drag your installed Mixtris application folder to the trash or recycling bin.  Thats it!
+To remove the application you can just delete the folder where it is installed or if you installed it with the windows .exe installer, just double click unins000.exe in the installed program folder.  Either way works.
+
+Mixtris Application Data, including your Mixtris ratings, can be backed up or removed manually.
+* In WINDOWS, you can find this folder under [user\_acount\_name]/AppData/Local/Mixtris.  
+* In OSX it is located in the usually hidden, user specific “Library” folder, NOT the system “Library” folder, to open it, type: `~/Library/Mixtris` in Go to open the folder.   
+* Your Mixtris file info is saved in "mixtrisFiles" folder.
+
 
