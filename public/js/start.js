@@ -156,6 +156,7 @@ function turnOffSpeaker() {
 	$('#audioPlayer').remove()
 	PLAYHERE = false
 	$("#start").find('.label').text("Play Here")
+	$("#start").css('color','darkgreen')
 	squeezeText()
 }
 function createDialogBox(msg,func1,func2) {
@@ -232,7 +233,7 @@ function updateShuffle() {
 		url: "/getSuffleType",
 		dataType: 'json'
 	}).done(function(shuf) {
-		$('.fiveRack.button').css('background-color','white')
+		$('.fiveRack.button').css('background-color','rgba(255,255,255,1)')
 		$('.fiveRack.button').css('color','Black')
 		$.each(shuf,function(k,v) {
 			if(k=='shuffleZero') {
@@ -252,17 +253,18 @@ function updateShuffle() {
 			}
 			if(k=='shuffleTwo') {
 				$('#'+k).css('background-color',shuffleTwoColor)
+				
 			}
 		})
 	})
 }
 
-var shuffleTwoColor = 'rgb(165,30,222)'
-var shuffleOneColor = 'rgb(38,142,163)'
+var shuffleTwoColor = 'rgb(38,142,163)'
+var shuffleOneColor = 'rgb(150,150,198)'
 var shuffleSkippedColor = 'rgb(232,222,21)'
 var shuffleMinusColor = 'firebrick'
 var shufflePlayedColor = 'lightBlue'
-var shuffleZeroColor = 'rgb(118,228,25)'
+var shuffleZeroColor = 'rgb(50,142,100)'
 function getVoteCount() {
 	$.ajax({
 		type: "get",
@@ -271,34 +273,43 @@ function getVoteCount() {
 		dataType: 'json'
 	}).done(function(count) {
 		var color = 'white'
+		var txt
 		if(count==-14) {
-			count = 'Skipped'
+			txt = 'Skipped'
 			color = shuffleSkippedColor
 		}
 		if(count==-4) {
-			count = 'Played'
+			txt = 'Played'
 			color = shufflePlayedColor
 		}
 		if(count==-1) {
-			count = 'Bad'
+			txt = 'Bad'
 			color = shuffleMinusColor
 		}
 		if(count==0) {
-			count = 'New'
+			txt = 'New'
 			color = shuffleZeroColor
 		}
 		if(count==1) {
-			count = 'Good'
+			txt = 'Good'
 			color = shuffleOneColor
 		}
 		if(count==2) {
-			count = 'Amazing'
+			txt = 'Amazing'
 			color = shuffleTwoColor
+			// $('#votelabel').parent().css('background-image','paper.gif')"
 		}
-		$('#votelabel').text(count).parent().css('background',color)
+		var labelJq = $('#votelabel')
+		labelJq.text(txt).parent().css('background',color)
+		
+		// makeAmazingBackground(labelJq.parent(),count)
 		squeezeText()
 	})
 } 
+function makeAmazingBackground(jq,c) {
+	console.log(c)
+	if(c==2) jq.css('background-image','url(./public/js/mixBackground.jpg)').css('background-repeat','repeat-x')
+}
 function getCurrentLibrary() {
 	$.ajax({
 		type: "get",
@@ -316,6 +327,7 @@ function playStopToggle() {
 	if(!PLAYHERE) { 
 		PLAYHERE = true
 		$("#start").find('.label').text("Pause")
+	$("#start").css('color','black')
 		if($('#audioPlayer').length==0) {
 			var audio = $("<audio></audio>").attr('id','audioPlayer').attr('preload','metadata').attr('controls','').appendTo('#audioCt')
 			addAudioEvents(audio)
@@ -326,6 +338,7 @@ function playStopToggle() {
 	} else {
 		PLAYHERE = false
 		$("#start").find('.label').text("Play Here")
+		$("#start").css('color','darkgreen')
 		$("#audioPlayer")[0].pause()
 	}
 	squeezeText()
