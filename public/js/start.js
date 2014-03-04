@@ -42,6 +42,9 @@ $(window).resize(function() {
 	squeezeText()
 })
 socket.on('message', function (data) {
+	console.log('got message')
+	console.log(data)
+	console.log('got message')
 	if(data.message) {
 		handleMessage(data)
 	} else {
@@ -96,13 +99,14 @@ var commandTransmitter = (function () {
 	}
 }())
 function startSongCLIENT() {
-	
 	$.ajax({
 		type: 'GET',
 		headers: { "cache-control": "no-cache"},
 		url: "/getSrc",
 		dataType: 'json',
 		success: function(url) {
+			console.log(url)
+			console.log('yyyyyyyyyyyyyyyyyyy')
 			if(!url) return
 			console.log(url)
 			printSongInfo(url)
@@ -140,7 +144,9 @@ function handleMessage(data) {
 	if(data.message=='Previous') startSongCLIENT()
 	if(data.message=='VoteUpdate') getVoteCount()
 	if(data.message=='UpdateShuffle') updateShuffle()
-	if(data.message=='NoMusic') alert('No mixes available.')
+	if(data.message=='NoMusic') {
+		// alert('No mixes available.')
+	}
 	if(data.message=='AllOff') turnOffSpeaker()
 }
 function turnOffSpeaker() {

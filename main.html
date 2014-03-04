@@ -5,7 +5,6 @@
 <style>
 	html,body{
 		font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-	
 		background:rgb(240,240,250);
 	}
 	#divSpacer{
@@ -77,7 +76,8 @@
 			letter-spacing:4px;
 			margin:0px;
 		}
-	#importMixtrisFile{
+		
+	#importBackup{
 		margin-left:50px;
 	}
 </style>
@@ -96,8 +96,8 @@
 </div>
 <div id="mixesForm">
 	<div id="mixesTitle">
-		<button id="importFolder">+ New</button>
-		<button id="importMixtrisFile">Import Backup</button>
+		<button id="importNewFolder">+ New</button>
+		<button id="importBackup">Import Backup</button>
 	</div>
 	<div id="libraryCt">
 		<div>There are no folders added to mix.  Click "+ Folder" button above to add one. 
@@ -105,60 +105,33 @@
 	</div>
 </div>
 <script>
-	var platform = process.platform
-	var CR_LIB = 'mixtris.json'
+	var platform = process.platform;
 	var path = require('path');
-	var cwd = path.normalize(process.execPath)
-	var MUSIC_DIRECTORY = {}
+	var cwd = path.normalize(process.execPath);
 	var MIXTRIS_FILE = ""
-	var SCORED_MUSIC = {}
-	var LAST_PLAYED_LIST = []
-	var APP_ROOT
-	if(platform == 'win32')APP_ROOT = cwd.split('Mixtris.exe')[0]
-	if(platform == 'darwin')APP_ROOT = cwd.split('Mixtris.app')[0]
-	APP_ROOT = path.normalize(APP_ROOT)
-	var fs = require('fs')
+	
+	if(process.platform=='darwin') APP_ROOT = cwd.split('Mixtris.app')[0]
+	if(process.platform=='win32') APP_ROOT = cwd.split('Mixtris.exe')[0]
+	var APP_ROOT = path.normalize(APP_ROOT)
+	console.log('main.js')
+	console.log('process.cwd()'+process.cwd())
+	console.log('process.execPath: '+process.execPath)
+	console.log('APP_ROOT: '+ APP_ROOT)
+	console.log('main.js')
+	var ip = require(path.join(APP_ROOT,'lib','GetNetworkIp.js')).getIp()
+	var fs = require('fs');
 	var http = require('http');
-	var express = require("express")
-	var app = express()
-	var io
-	var gui
-	var port = 8074
-	getPort(function () {
-		app.configure(function(){
-			app.use(express.favicon("public/js/icon.ico")); 
-			app.use('/public/js', express.static(APP_ROOT + '/public/js'))
-		})
-		io = require('socket.io').listen(app.listen(port), { log: false })
-		gui = require('nw.gui');
-		$('#localAddress').click(function(e){
-			gui.Shell.openExternal($(this).text())
-			e.preventDefault()
-		})
-		$.getScript(APP_ROOT+'/File_Manager.js', function() {
-		})
-		$.getScript(APP_ROOT+'/web.js', function() {
-		})
-		$.getScript(APP_ROOT+'/getNetworkIp.js', function() {
-		})
+	var gui = require('nw.gui');
+	var getPort = require(path.join(APP_ROOT,'lib','GetPort.js'));
+	var startPort = 8074;
+	var port;
+	var env = 'production';
+	var Mix_Viewer;
+	getPort.findPort(startPort,function(foundPort) {
+		port = foundPort;
+		$.getScript(path.join(APP_ROOT,'web.js'), function() {});
 	})
-	function getPort(cb) {
-		//https://gist.github.com/mikeal/1840641
-		port += 1
-		var server = http.createServer()
-		server.listen(port, function (err) {
-			if(err) {
-				console.log(err)
-				return
-			}
-			server.close()
-			cb('done')
-		})
-		server.on('error', function (err) {
-			console.log(err)
-			getPort(cb)
-		})
-	}
+	$.getScript(path.join(APP_ROOT,'lib','AsyncAlert.js'), function() {})
 </script>
 </body>
 </html>
