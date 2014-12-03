@@ -27,8 +27,13 @@ Installation
  3. Drag the unzipped Mixtris folder into your application folder or wherever you wish to install it.
  4. Launch Mixtris by double clicking "Mixtris.app" contained in your Mixtris folder, or if extensions are hidden, the one just named "Mixtris".
 
+<br>
+<br>
+<br>
 ###Or 
-###if you want to build Mixtris yourself from scratch ...
+<br>
+<br>
+<br>
 
 ###Build Your Own With Node-Webkit
 ------
