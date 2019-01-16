@@ -1,3 +1,3 @@
-/public/allMusicFolder
-/public/musicCatalogFolder
+/public/allMusicFolder/*
+/public/musicCatalogFolder/*
 /node_modules
