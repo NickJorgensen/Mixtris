@@ -23,7 +23,6 @@ function addAudioEvents(audioJq) {
 		}
 		console.log('error with mp3')
 	}, false);
-
 }
 $(document).ready(function() { 
 	launchApp()
@@ -37,7 +36,8 @@ function launchApp() {
 	updateShuffle()
 }
 
-var socket = io.connect(document.URL)
+// var socket = io.connect(document.URL)
+ var socket = io();
 $(window).resize(function() {
 	squeezeText()
 })
@@ -105,14 +105,10 @@ function startSongCLIENT() {
 		url: "/getSrc",
 		dataType: 'json',
 		success: function(url) {
-			console.log(url)
-			console.log('yyyyyyyyyyyyyyyyyyy')
 			if(!url) return
-			console.log(url)
 			printSongInfo(url)
 			getVoteCount()
 			getCurrentLibrary()
-			console.log(url)
 			$("#audioPlayer")[0].src = url
 			//must load new src or safari won't play
 			$("#audioPlayer")[0].load()
@@ -234,15 +230,10 @@ function getVoteCount() {
 		}
 		var labelJq = $('#votelabel')
 		labelJq.text(txt).parent().css('background',color)
-		
-		// makeAmazingBackground(labelJq.parent(),count)
 		squeezeText()
 	})
-} 
-function makeAmazingBackground(jq,c) {
-	console.log(c)
-	if(c==2) jq.css('background-image','url(./public/js/mixBackground.jpg)').css('background-repeat','repeat-x')
 }
+
 function getCurrentLibrary() {
 	$.ajax({
 		type: "get",
@@ -250,8 +241,8 @@ function getCurrentLibrary() {
 		url: "/getCurrentLibrary",
 		dataType: 'json'
 	}).done(function(lib) {
-		console.log(lib)
-		$('#libraryFolder').text(lib)
+		var splitPath = lib.split("/");
+		$('#libraryFolder').text(splitPath[splitPath.length - 1])
 		squeezeText()
 	})
 } 

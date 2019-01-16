@@ -1,22 +1,15 @@
 {
   "name": "Mixtris",
-  "version": "0.0.3",
-  "main": "main.html",
+  "version": "0.1.0",
   "dependencies": {
-    "express": "3.1.x",
-    "socket.io": "0.9.x",
-	"path":"0.4.x",
-	"mkdirp":"0.3.x"
+    "async-walk": "^1.0.4",
+    "express": "*",
+    "fs": "0.0.1-security",
+    "mkdirp": "^0.5.1",
+    "path": "*",
+    "socket.io": "*"
   },
-  "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
-  },
-  "window": {
-    "title": "Mixtris",
-    "toolbar": true,
-    "frame": true,
-    "width": 800,
-    "height": 600
+  "devDependencies": {
+    "mocha": "^5.2.0"
   }
 }

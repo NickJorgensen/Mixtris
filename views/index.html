@@ -99,6 +99,12 @@
 			width:26.3%;
 			height:75%;
 		}
+
+		.leftSpan{
+			width:70%;
+			float:left;
+			height:100%;
+		}
 		.fourRack {
 			width:18.5%;
 			height:75%;
@@ -118,6 +124,7 @@
 				width:8%;
 				height:100%;
 			}
+
 		.label{
 			width:100%;
 			float:left;
@@ -180,6 +187,7 @@
 			height:100%;
 			box-shadow:2px 2px 7px lightgrey;
 		}
+
 	.underliner {
 		width:25%;
 		height:10px;
@@ -208,7 +216,7 @@
 	}
 	</style>	
   </head>
-<script type="text/javascript" charset="utf-8" src="../public/js/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
 </script>
  <body>
@@ -248,19 +256,17 @@
 		<div class="rowSpacerSmall">
 		</div>
 		<div id="letters">
-			
+			<span class="leftSpan">
+					<div id="libraryFolder" >Folder: No staged mixes
+					</div>
+					<div id="albumNames" class="">
+					</div>
+
+			</span>
 			<span class="voteCt threeRack">
 				<span id="votelabel" class="label">
 				</span>
 			</span>
-			<div class="dirRow">
-				<span id="libraryFolder" >Folder: No staged mixes
-				</span>
-			</div>
-			<div class="titleRow">
-				<span id="albumNames" class="">
-				</span>
-			</div>
 		</div>
 		<div class="rowSpacerSmall">
 		</div>
