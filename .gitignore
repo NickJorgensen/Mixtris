@@ -1,6 +1,6 @@
-/public/allMusicFolder/*
-/public/musicCatalogFolder/*
-/node_modules
+/app/public/allMusicFolder/*
+/app/public/musicCatalogFolder/*
+/app/node_modules
 
 .DS_Store
 .DS_Store?
@@ -8,5 +8,6 @@
 
 
 *.log
-*.sql
-*.sqlite
+
+// test results
+results.txt

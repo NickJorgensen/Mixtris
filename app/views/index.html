@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mixtris</title>
+		<script type="text/javascript" charset="utf-8" src="../public/js/jquery-1.10.2.js"></script>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />	
+		<style type="text/css">
+		html, body {
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+			margin:0%;
+			background:rgb(240,240,250);
+		}
+		#masterCt {
+			width: 100%;
+			height: 90%;
+			overflow:hidden;
+			margin-left:auto;
+			margin-right:auto;
+		} 
+		#topPadder {
+			width: 100%;
+			height: 2.5%;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		.row {
+			height:14%;
+			width:95%;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		.rowBottom {
+			height:12%;
+			width:95%;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		.topRow {
+			height:10%;
+			width:95%;
+			margin-left:auto;
+			margin-right:auto;
+		}
+			.twoRackTop {
+				width:30%;
+				height:75%;
+			}
+			.rackSpacerTop {
+				float:left;
+				width:13.33%;
+				height:100%;
+			}
+		.rowSmall {
+			/*display:none;*/
+			height:10%;
+			width:95%;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		.rowSpacer {
+			height:4%;
+		}
+		.rowSpacerSmall {
+			height:2%;
+		}
+		
+		.buttonInvisible {
+			overflow:hidden;
+			cursor:pointer;
+			float:left;
+		}
+		.button {
+			overflow:hidden;
+			cursor:pointer;
+			float:left;
+			outline:0px solid black;
+			text-align: center;
+			background:rgba(255,255,255,0.7);
+			border-radius:15px;
+			box-shadow:2px 2px 10px grey;
+		}
+		.buttonsLabelBottom {
+			overflow:hidden;
+			float:left;
+			text-align: center;
+		}
+		.down{
+			box-shadow:2px 2px 7px lightgrey;
+		}
+		.oneRack {
+			width:90%;
+			height:75%;
+		}
+		.threeRack {
+			width:26.3%;
+			height:75%;
+		}
+
+		.leftSpan{
+			width:70%;
+			float:left;
+			height:100%;
+		}
+		.fourRack {
+			width:18.5%;
+			height:75%;
+		}
+		.rackSpacer {
+			width:5%;
+			height:99%;
+			float:left;
+		}
+		
+		.twoRack {
+			width:37.8%;
+			height:75%;
+		}
+			.rackSpacerTwo {
+				float:left;
+				width:8%;
+				height:100%;
+			}
+
+		.label{
+			width:100%;
+			float:left;
+			text-align:center;
+			vertical-align:text-top;
+			white-space: nowrap;
+		}
+		.fiveRack {
+			width:10.8%;
+			height:75%;
+		}
+		#audioPlayer{
+			position:absolute;
+		}
+		#audioCt{
+			position:absolute;
+		}
+		.placeHolder {
+			overflow:hidden;
+			float:left;
+		}
+		#copywrite {
+			font-size:14px;
+			text-align:center;
+			height:22px;
+			width:100%;
+		}
+		.hideOnStart{
+			visibility:hidden;
+		}
+		.descriptiveLabel{
+			margin-top:10px;
+		}
+		#letters {
+			width:90%;
+			height:15%;
+			margin-left:auto;
+			margin-right:auto;
+			padding:7px;
+			overflow:hidden;
+		}
+		#albumNames{
+			width:100%;
+			font-size:23px;
+		}
+		#libraryFolder{
+			color:grey;
+			width:100%;
+			font-size:23px;
+		}
+		#votelabel{
+			color:black;
+			width:21%;
+			text-align:center;
+			width:100%;
+		}
+		.voteCt {
+			overflow:hidden;
+			float:right;
+			height:100%;
+			box-shadow:2px 2px 7px lightgrey;
+		}
+
+	.underliner {
+		width:25%;
+		height:10px;
+		margin-left:auto;
+		margin-right:auto;
+		border-bottom:1px solid grey;
+	}
+	#mainTitle{
+		font-size:15px;
+		text-align:center;
+		margin-bottom:5px;
+		margin-left:200px;
+		margin-right:200px;
+	}
+		#icon{
+			height:30px;
+			width:30px;
+			margin:0px;
+		}
+		#inner{
+			letter-spacing:4px;
+			margin:0px;
+		}
+	#start{
+		color:green;
+	}
+	</style>	
+  </head>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+</script>
+ <body>
+	
+	<script type="text/javascript" charset="utf-8" src="../public/js/start.js"></script>
+	
+	<div id="topPadder">
+	</div>
+	</div>
+		<div id="mainTitle">
+		<img id="icon" src="./public/js/icon.ico">
+		</img>
+		<span id="inner">ixtris
+		</span>
+	</div>
+	<div id="masterCt" class="hideOnStart">
+		<div class="rowSpacerSmall">
+		</div>
+		<div class="topRow">
+			<span class="rackSpacerTop">
+			</span>
+			<span id="start" class="button twoRackTop">
+				<span class="label">
+					Play Here
+				</span>
+			</span>
+			<span class="rackSpacerTop">
+			</span>
+			<span id="off" class="button twoRackTop">
+				<span class="label">
+					All Off
+				</span>
+			</span>
+		</div>
+		<div class="rowSpacerSmall">
+		</div>
+		<div class="rowSpacerSmall">
+		</div>
+		<div id="letters">
+			<span class="leftSpan">
+					<div id="libraryFolder" >Song Info
+					</div>
+					<div id="albumNames" class="">
+					</div>
+
+			</span>
+			<span class="voteCt threeRack">
+				<span id="votelabel" class="label">
+				</span>
+			</span>
+		</div>
+		<div class="rowSpacerSmall">
+		</div>
+		<div class="rowSpacer">
+		</div>
+		<div class="row">
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="downvote" class="button twoRack">
+				<span class="label arrow">
+					&#8595;
+				</span>
+			</span>
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="upvote" class="button twoRack">
+				<span class="label arrow">
+					&#8593;
+				</span>
+			</span>
+		</div>
+		<div class="rowSpacer">
+		</div>
+		<div class="row">
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="last" class="button twoRack">
+				<span class="label arrow">
+					Back
+				</span>
+			</span>
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="forward" class="button twoRack">
+				<span class="label arrow">
+					Next 
+				</span>
+			</span>
+		</div>
+		
+				<!-- <div class="underliner">
+				</div> -->
+		<div class="rowSpacer">
+		</div>
+		<div class="rowBottom">
+			<!-- <span class="rackSpacer">
+			</span>
+			<span class="buttonsLabelBottom">
+				Included<br> Mixes
+			</span> -->
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleMinus" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Bad
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleSkipped" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Skipped
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shufflePlayed" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Played
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleZero" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					New
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleOne" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Good
+				</span>
+			</span>
+			<span class="rackSpacer">
+			</span>
+			<span id="shuffleTwo" class="button fiveRack">
+				<span class="descriptiveLabel label">
+					Amazing
+				</span>
+			</span>
+		</div>
+		<div class="rowSpacerSmall">
+		</div>
+		<div class="rowSpacerSmall">
+		</div>
+		<div class="rowSmall">
+			<span class="rackSpacerTwo">
+			</span>
+			<span id="audioCt">
+				<audio id="audioPlayer" src="" preload="metadata" controls>
+				</audio>
+			</span>
+			<span id="start" class="buttonInvisible twoRack">
+			</span>
+			<span class="rackSpacerTwo">
+			</span>
+			<!-- <span class="voteCt twoRack">
+				<span id="votelabel" class="label">
+				</span>
+			</span> -->
+		</div>
+	<!-- <div id="copywrite" class="hideOnStart">&copy; 2014 by Nicholas Jorgensen. All rights reserved.</div> -->
+</body>
+
+</html>
