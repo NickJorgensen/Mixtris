@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "dependencies": {
     "async-walk": "^1.0.4",
-    "express": "*",
+    "express": "^4.16.4",
     "fs": "0.0.1-security",
     "mkdirp": "^0.5.1",
-    "path": "*",
-    "socket.io": "*"
+    "path": "^0.12.7",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
