@@ -5,3 +5,8 @@
 .DS_Store
 .DS_Store?
 ._*
+
+
+*.log
+*.sql
+*.sqlite
