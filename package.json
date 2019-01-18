@@ -2,6 +2,7 @@
   "name": "Mixtris",
   "version": "0.1.0",
   "dependencies": {
+    "async": "^2.6.1",
     "async-walk": "^1.0.4",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
@@ -13,9 +14,20 @@
     "grunt": "^1.0.3",
     "grunt-env": "^0.4.4",
     "grunt-mocha-test": "^0.13.3",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "rimraf": "^2.6.3"
   },
   "scripts": {
-    "test": "grunt test"
+    "start":"node web.js",
+    "test": "grunt test",
+    "testCoverage": "nyc grunt test"
+  },
+  "nyc": {
+    "exclude": [
+      "app/test",
+      "build",
+      "Gruntfile.js"
+    ]
   }
 }

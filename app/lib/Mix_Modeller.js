@@ -16,13 +16,13 @@ let MIXCATALOGSFILE = allAppPaths.findAppCatalogsFilePath()
 module.exports = {
 
 	buildAllMixes: function(cb) {
-		getAllMixesFromDisk(function(rebuildCache){
-			if(rebuildCache===0||!rebuildCache)rebuildCache={}
+		getMixeFromDisk(function(rebuildCache){
+			if( rebuildCache === 0 || !rebuildCache ) rebuildCache = {}
 			cb(rebuildCache)
 		})
 	},
 	initMixtrisCatalogFolder: function(cb) {
-		getMixtrisFiles(function(msg){
+		getMixtrisFile(function(msg){
 			if(msg===0) {
 				makeMixtrisAppFilesDirectory(function() {
 					cb('made new mixtris app folder')
@@ -88,9 +88,6 @@ module.exports = {
 function scanForNewMusic(mix,cb) {
 	var dir = ALLMUSICFOLDERPATH
 	scanDirectory(dir,function(results){
-
-
-		console.log("results",results)
 		// remove results that are not sound files
 		var purgedResults = []
 		for (var i = 0; i < results.length; i++) {
@@ -101,7 +98,6 @@ function scanForNewMusic(mix,cb) {
 				purgedResults.push(file);
 			}
 		}
-		console.log("purgedResults",purgedResults)
 
 		// remove top level directory from results
 		var cleanedResults = []
@@ -139,8 +135,8 @@ function scanForNewMusic(mix,cb) {
 		cb(mix)
 	})
 }
-function getAllMixesFromDisk(cb){
-	getMixtrisFiles(function(res1){
+function getMixeFromDisk(cb){
+	getMixtrisFile(function(res1){
 		// make sure catalogs file exists
 		if(!res1 || res1.length===0) {
 			cb(0)
@@ -152,7 +148,7 @@ function getAllMixesFromDisk(cb){
 	})
 }
 
-function getMixtrisFiles(cb){
+function getMixtrisFile(cb){
 	var pth = MIXCATALOGSFOLDER
 	scanDirectory(pth,function(res1){
 		if(!res1) {
@@ -167,7 +163,7 @@ function saveMixtrisToDisk(mix,cb) {
 		if (err) {
 			throw err;
 		}		
-		getAllMixesFromDisk(function(rebuildCache){
+		getMixeFromDisk(function(rebuildCache){
 			cb(rebuildCache)
 		})
 	})

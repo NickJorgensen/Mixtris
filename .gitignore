@@ -2,6 +2,12 @@
 /app/public/musicCatalogFolder/*
 /app/node_modules
 
+node_modules
+
+/app/public/allMusicFolder_Test/*
+/app/public/musicCatalogFolder_Test/*
+
+
 .DS_Store
 .DS_Store?
 ._*

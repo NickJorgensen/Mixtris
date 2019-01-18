@@ -52,13 +52,6 @@ module.exports = {
 			cb(score)
 		}
 	},
-	getCurrentMixFolder:function(cb){
-		if(ALL_LIB) {
-			cb(ALL_LIB.MUSIC_DIRECTORY)
-		} else {
-			cb(null)
-		}
-	},
 	handleSocketIOCommands:function(data,cb) {
 		socketIoCommandHandler(data,function(msg){
 			cb(msg)

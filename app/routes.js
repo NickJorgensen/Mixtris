@@ -8,6 +8,7 @@ var Mix_Controller = require('./lib/Mix_Controller.js')
 
 module.exports = {
 	linkRoutesAndSocketsWithControllers: function(app,io) {
+
 		io.sockets.on('connection', function (socket) {
 			console.log('Someone connected')
 		    socket.on('message', function (data) {
@@ -35,12 +36,6 @@ module.exports = {
 			})
 		})
 
-		app.get('/getCurrentLibrary',function(req,res){
-			Mix_Controller.getCurrentMixFolder(function(msg){
-				res.json(msg)
-			})
-		})
-
 		app.get('/',function(req,res){
 			res.set('Content-Type', 'text/html');
 			res.sendfile(path.join(APP_ROOT,'app/views/index.html'))
@@ -52,5 +47,6 @@ module.exports = {
 				res.json(msg)
 			})
 		})
+		
 	}
 }

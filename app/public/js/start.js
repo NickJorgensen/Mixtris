@@ -108,7 +108,6 @@ function startSongCLIENT() {
 			if(!url) return
 			printSongInfo(url)
 			getVoteCount()
-			// getCurrentLibrary()
 			$("#audioPlayer")[0].src = url
 			//must load new src or safari won't play
 			$("#audioPlayer")[0].load()
@@ -236,19 +235,6 @@ function getVoteCount() {
 
 
 
-function getCurrentLibrary() {
-	// depreciated
-	$.ajax({
-		type: "get",
-		headers: { "cache-control": "no-cache" },
-		url: "/getCurrentLibrary",
-		dataType: 'json'
-	}).done(function(lib) {
-		var splitPath = lib.split("/");
-		$('#libraryFolder').text(splitPath[splitPath.length - 1])
-		squeezeText()
-	})
-} 
 var PLAYHERE = false
 function playStopToggle() {
 	if(!PLAYHERE) { 

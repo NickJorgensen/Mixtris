@@ -16,7 +16,13 @@ module.exports = function(grunt) {
           clearCacheFilter: (key) => true, // Optionally defines which files should keep in cache
           noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
         },
-        src: ['test/**/*.js']
+        // src: ['app/test/**/*.js'],
+        src: [
+        'app/test/integration/IT_GetAppDataPath.js',
+        'app/test/integration/IT_Mix_Modeller.js',
+        'app/test/integration/IT_Mix_Controller.js'
+        ]
+
       }
     },
 
