@@ -89,10 +89,24 @@ function scanForNewMusic(mix,cb) {
 	var dir = ALLMUSICFOLDERPATH
 	scanDirectory(dir,function(results){
 
+
+		console.log("results",results)
+		// remove results that are not sound files
+		var purgedResults = []
+		for (var i = 0; i < results.length; i++) {
+			let file = results[i]
+
+			var ext = path.extname(file)
+			if(ext=='.mp3' || ext=='.m4a' || ext=='.m4p') {
+				purgedResults.push(file);
+			}
+		}
+		console.log("purgedResults",purgedResults)
+
 		// remove top level directory from results
 		var cleanedResults = []
-		for (var i = 0; i < results.length; i++) {
-			var urlKey = results[i].split(ALLMUSICFOLDERPATH).pop()
+		for (var i = 0; i < purgedResults.length; i++) {
+			var urlKey = purgedResults[i].split(ALLMUSICFOLDERPATH).pop()
 			cleanedResults.push(urlKey)
 		}
 

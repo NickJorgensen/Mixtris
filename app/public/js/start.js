@@ -13,7 +13,7 @@ function addAudioEvents(audioJq) {
 	});
 	audioJq.on('pause', function (e) {
 		// console.log('playevent')
-		// $("#start").find('.label').text("Play Here")
+		// $("#start").find('.label').text("Play")
 		// PLAYHERE = false
 	});
 	audioJq[0].addEventListener('error', function(e) {
@@ -151,7 +151,7 @@ function turnOffSpeaker() {
 	$('#audioPlayer')[0].pause()
 	
 	PLAYHERE = false
-	$("#start").find('.label').text("Play Here")
+	$("#start").find('.label').text("Play")
 	$("#start").css('color','darkgreen')
 	squeezeText()
 }
@@ -234,6 +234,8 @@ function getVoteCount() {
 	})
 }
 
+
+
 function getCurrentLibrary() {
 	// depreciated
 	$.ajax({
@@ -258,7 +260,7 @@ function playStopToggle() {
 		$('#audioPlayer')[0].play()
 	} else {
 		PLAYHERE = false
-		$("#start").find('.label').text("Play Here")
+		$("#start").find('.label').text("Play")
 		$("#start").css('color','darkgreen')
 		$("#audioPlayer")[0].pause()
 		// $('#audioPlayer').removeAttr('controls','hidden')
