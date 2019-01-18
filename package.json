@@ -19,7 +19,7 @@
     "rimraf": "^2.6.3"
   },
   "scripts": {
-    "start":"node web.js",
+    "start": "node web.js",
     "test": "grunt test",
     "testCoverage": "nyc grunt test"
   },
