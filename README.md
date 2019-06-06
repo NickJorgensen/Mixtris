@@ -11,7 +11,7 @@ Recent Changes
 ------
 Our overall implementation has been simplified and streamlined.  Namely we have decided to remove Node Webkit, Mixtris now runs solely as a Node.js express app.  In the future we plan on updating Mixtris more regularly and this new application design will be simpler to maintain.
 
-Some improvements include music management.  Managing your collection is all done using simple file management.  For example, if you want to remove any music from your mix, just remove or delete the files from your ./app/public/allMusicFolder, then, whenever you run $ node web.js, Mixtris will automatically re-scan and clean up any removed files or add any new ones.
+Some improvements include music management.  Managing your collection is all done via file management.  For example, if you want to remove any music from your mix, just remove or delete the files from your ./app/public/allMusicFolder, then, whenever you run $ node web.js, Mixtris will automatically re-scan and clean up any removed files or add any new ones.
 
 Unfortunately our removal of Node Webkit means we will no longer be offering any prebuilt binary installation packages.  Users will need to install Node.js before running Mixtris.  If you have any concerns about this approach please contact us so we can address them.
 

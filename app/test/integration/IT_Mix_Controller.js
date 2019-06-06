@@ -37,14 +37,11 @@ describe('IT for Mix_Controller.js', function() {
 
 		it('kick things off by initializinf folders and mixes', function(done) {
 			Mix_Controller.initFoldersAndMixes(function(msg){
-				assert.deepEqual(msg, 'done')
-				Mix_Controller.importAllMixes(function(msg){
-					assert('SCORED_MUSIC' in msg);
-					let keys = Object.keys(msg.SCORED_MUSIC)
-					assert.equal(keys.length,10)
-					
-					done()
-				})
+				assert('SCORED_MUSIC' in msg);
+				let keys = Object.keys(msg.SCORED_MUSIC)
+				assert.equal(keys.length,10)
+				
+				done()
 			})
 		});
 

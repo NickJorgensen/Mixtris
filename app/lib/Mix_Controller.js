@@ -10,23 +10,14 @@ var	Mix_Modeller = require('./Mix_Modeller.js');
 var allAppPaths = require('./GetAppDataPath.js')
 
 module.exports = {
-
 	initFoldersAndMixes:function(cb) {
-
 		// first create a folder for our music catalog
-		Mix_Modeller.initMixtrisCatalogFolder(function(){
-
+		Mix_Modeller.initMixtrisCatalogFolder(function() {
 			// then scan allMusicFolder for tracks, then add them to the catalog.json file
-			Mix_Modeller.createOrAddToCatalogFile(function(updatedLibrary){
-				cb("done")
+			Mix_Modeller.createOrAddToCatalogFile(function(updatedCache){
+				refreshALLMixes(updatedCache)
+				cb(updatedCache)
 			})
-		})
-
-	},
-	importAllMixes:function(cb) {
-		Mix_Modeller.buildAllMixes(function(allMixes){
-			refreshALLMixes(allMixes)
-			cb(allMixes)
 		})
 	},
 	getSuffleType:function(cb) {
@@ -58,6 +49,7 @@ module.exports = {
 		})
 	}
 }
+
 function socketIoCommandHandler(data,cb) {
 	Mix_Modeller.buildAllMixes(function(allMixes){
 		refreshALLMixes(allMixes)
@@ -106,6 +98,7 @@ function socketIoCommandHandler(data,cb) {
 				data=='shuffleTwo' ||
 				data=='shufflePlayed' ||
 				data=='shuffleSkipped') {
+
 					if(SHUFFLE_VALUE[data]!=undefined)  {
 						delete SHUFFLE_VALUE[data]
 					} else {

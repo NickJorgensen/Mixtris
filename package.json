@@ -2,20 +2,20 @@
   "name": "Mixtris",
   "version": "0.1.0",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.2",
     "async-walk": "^1.0.4",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "grunt": "^1.0.4",
     "mkdirp": "^0.5.1",
     "path": "^0.12.7",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "grunt": "^1.0.3",
     "grunt-env": "^0.4.4",
     "grunt-mocha-test": "^0.13.3",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
+    "nyc": "^13.3.0",
     "rimraf": "^2.6.3"
   },
   "scripts": {
@@ -29,5 +29,8 @@
       "build",
       "Gruntfile.js"
     ]
+  },
+  "engines": {
+    "node": ">=8.9.1"
   }
 }
