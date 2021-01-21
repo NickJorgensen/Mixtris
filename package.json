@@ -9,7 +9,7 @@
     "grunt": "^1.0.4",
     "mkdirp": "^0.5.1",
     "path": "^0.12.7",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "grunt-env": "^1.0.1",
